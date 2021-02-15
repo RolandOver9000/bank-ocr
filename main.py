@@ -3,7 +3,7 @@ import sys
 
 
 def choose():
-    inputs = util.get_inputs(["Please enter a number: "], "")
+    inputs = util.get_input()
     option = inputs[0]
     if option == "1":
         print("User story one")

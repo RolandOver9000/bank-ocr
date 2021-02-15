@@ -1,14 +1,6 @@
 def print_menu(title, list_options, exit_message):
     """
-    Displays a menu. Sample output:
-        Main menu:
-            (1) Store manager
-            (2) Human resources manager
-            (3) Inventory manager
-            (4) Accounting manager
-            (5) Sales manager
-            (6) Customer relationship management (CRM)
-            (0) Exit program
+    Displays a menu.
 
     Args:
         title (str): menu title
@@ -26,8 +18,8 @@ def print_menu(title, list_options, exit_message):
 
     option_indent = ' ' * 4
 
-    for i, option in enumerate(list_options):
-        print(f"{option_indent}({i+1}) {option}")
+    for index, option in enumerate(list_options):
+        print(f"{option_indent}({index + 1}) {option}")
 
     print(f"{option_indent}(0) {exit_message}")
 
@@ -46,36 +38,13 @@ def print_error_message(message):
     print(f"\nError: {message}")
 
 
-def get_inputs(list_labels, title):
+def get_input():
     """
-    Gets list of inputs from the user.
-    Sample call:
-        get_inputs(["Name","Surname","Age"],"Please provide your personal information")
-    Sample display:
-        Please provide your personal information
-        Name <user_input_1>
-        Surname <user_input_2>
-        Age <user_input_3>
-
-    Args:
-        list_labels (list): labels of inputs
-        title (string): title of the "input section"
+    Gets an input from the user.
 
     Returns:
-        list: List of data given by the user. Sample return:
-            [<user_input_1>, <user_input_2>, <user_input_3>]
+        The entered input from the user.
     """
-
-    if title:
-        print(f"\n{title}\n")
-    else:
-        print()
-
-    inputs = []
-    for label in list_labels:
-        if not label.endswith(": "):
-            label += ": "
-        user_input = input(label)
-        inputs.append(user_input)
-
-    return inputs
+    label = "Please enter a number: "
+    indent = " " * 4
+    return input(f"\n{indent}{label}")
