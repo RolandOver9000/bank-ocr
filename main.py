@@ -1,13 +1,15 @@
 import util
 import sys
 
-from bank_ocr.sub_menu_handler import handle_user_story_1_sub_menu
+from bank_ocr import sub_menu_handler
 
 
 def choose():
     user_input = util.get_input()
     if user_input == "1":
-        handle_user_story_1_sub_menu()
+        sub_menu_handler.handle_user_story_1_sub_menu()
+    elif user_input == "2":
+        sub_menu_handler.handle_user_story_2_sub_menu()
     elif user_input == "0":
         sys.exit(0)
     else:
