@@ -1,5 +1,5 @@
 import util
-from bank_ocr import code_reader
+from bank_ocr import code_reader, validation
 
 
 def handle_user_story_1_sub_menu():
@@ -19,3 +19,5 @@ def handle_user_input(user_input):
     """
     if user_input == "1":
         code_reader.handle_process()
+    elif user_input == "2":
+        validation.handle_process()
