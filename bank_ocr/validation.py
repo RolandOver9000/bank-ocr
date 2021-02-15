@@ -14,9 +14,8 @@ def validate(processed_codes):
     """
     validation_result = {}
     for code in processed_codes:
-        reversed(code)
+        code = code[::-1]
         print(code)
-
     return validation_result
 
 

@@ -17,8 +17,8 @@ def choose():
 
 
 def handle_menu():
-    options = ["User story 1",
-               "User story 2",
+    options = ["Analyze data from dummy file (User story 1)",
+               "Validate data from dummy file (User story 2)",
                "User story 3",
                "User story 4",
                "User story 5"]
