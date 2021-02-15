@@ -3,11 +3,10 @@ import sys
 
 
 def choose():
-    inputs = util.get_input()
-    option = inputs[0]
-    if option == "1":
+    user_input = util.get_input()
+    if user_input == "1":
         print("User story one")
-    elif option == "0":
+    elif user_input == "0":
         sys.exit(0)
     else:
         raise KeyError("There is no such option.")
