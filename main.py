@@ -1,11 +1,13 @@
 import util
 import sys
 
+from bank_ocr.sub_menu_handler import handle_user_story_1_sub_menu
+
 
 def choose():
     user_input = util.get_input()
     if user_input == "1":
-        print("User story one")
+        handle_user_story_1_sub_menu()
     elif user_input == "0":
         sys.exit(0)
     else:
@@ -23,12 +25,12 @@ def handle_menu():
 
 
 def main():
-    while True:
-        handle_menu()
-        try:
-            choose()
-        except KeyError as err:
-            util.print_error_message(str(err))
+#    while True:
+    handle_menu()
+    try:
+        choose()
+    except KeyError as err:
+        util.print_error_message(str(err))
 
 
 if __name__ == '__main__':
