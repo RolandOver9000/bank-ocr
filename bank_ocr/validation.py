@@ -14,7 +14,8 @@ def calculate_checksum(reversed_code):
     """
     calculated_checksum = 0
     for index, number in enumerate(reversed_code):
-        calculated_checksum += int(number) * index
+        # +1 because index starts from 0
+        calculated_checksum += int(number) * (index + 1)
     return calculated_checksum
 
 
