@@ -18,4 +18,4 @@ def handle_user_input(user_input):
     :param user_input: string
     """
     if user_input == "1":
-        code_reader.start_process()
+        code_reader.handle_process()

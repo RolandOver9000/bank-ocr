@@ -25,7 +25,6 @@ def handle_menu():
 
 
 def main():
-#    while True:
     handle_menu()
     try:
         choose()

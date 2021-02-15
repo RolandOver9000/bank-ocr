@@ -1,6 +1,4 @@
 
-
-
 def print_menu(title, list_options, exit_message):
     """
     Displays a menu.
