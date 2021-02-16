@@ -61,7 +61,6 @@ def try_to_fix_digit(digit):
     """
     segments_representation = ['|', '_']
     possible_solutions = []
-
     for index, character in enumerate(digit):
         if character == " ":
             for segment in segments_representation:
@@ -111,6 +110,23 @@ def get_digits_from_code(code, digit_indexes):
     return digit_on_index
 
 
+def get_single_digit_from_code(code, digit_index):
+    """
+    Gets a single digit string from a code by the given index.
+    :param code: String representation of digit code.
+    :param digit_index: The number of the searched digit's index.
+    Returns:
+        The string representation of the digit.
+    """
+    digit = ""
+    starter_column_of_digit = digit_index * DIGIT_CHARACTER_COLUMN
+    for row in range(NUMBER_OF_DIGIT_PRINT_LINE):
+        row_starter_index = starter_column_of_digit + (row * NUMBER_OF_CHARACTERS_IN_LINE)
+        digit += code[row_starter_index: row_starter_index + DIGIT_CHARACTER_COLUMN]
+
+    return digit
+
+
 def get_possible_valid_code_with_options(processed_code, valid_digit_options, index_of_invalid_digit):
     """
     Checks the variations of a possible code if there is only 1 wrong digit.
@@ -140,14 +156,12 @@ def handle_invalid_digits(code, processed_code):
     Returns:
         The possible solution(s) if the code has any.
     """
-    invalid_digit_indexes = get_invalid_number_indexes_from_code(processed_code)
-    invalid_digits = get_digits_from_code(code, invalid_digit_indexes)
     possible_solutions = []
-
-    for index_of_invalid_digit, invalid_digit in invalid_digits.items():
-        valid_digit_options = try_to_fix_digit(invalid_digit)
-        possible_solutions += \
-            get_possible_valid_code_with_options(processed_code, valid_digit_options, index_of_invalid_digit)
+    invalid_digit_index = list(processed_code).index("?")
+    invalid_digit = get_single_digit_from_code(code, invalid_digit_index)
+    valid_digit_options = try_to_fix_digit(invalid_digit)
+    possible_solutions += \
+        get_possible_valid_code_with_options(processed_code, valid_digit_options, invalid_digit_index)
 
     return possible_solutions
 
