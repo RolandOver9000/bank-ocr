@@ -62,12 +62,44 @@ def try_to_fix_digit(digit):
     pass
 
 
+def get_invalid_number_indexes_from_code(processed_code):
+    """
+    Gets the indexes of the invalid digits.
+    :param processed_code: String representation of processed bank code.
+    Returns:
+        List if index(es) that are in the processed_code.
+    """
+    invalid_digit_indexes = []
+    for index, character in enumerate(processed_code):
+        if character == "?":
+            invalid_digit_indexes.append(index)
+    return invalid_digit_indexes
+
+
+def handle_invalid_digits(code, processed_code):
+    """
+    Manages the process of invalid digit repair.
+    :param code: String representation of digit code.
+    :param processed_code: String representation of processed (numeric) code.
+    Returns:
+        A code that
+    """
+    invalid_digit_indexes = get_invalid_number_indexes_from_code(processed_code)
+    for invalid_digit_index in invalid_digit_indexes:
+        get_digit_from_code(code, invalid_digit_index)
+        try_to_fix_digit()
+    pass
+
+
 def try_to_fix_code(code, processed_code):
     """
     :param code: String representation of digit code.
     :param processed_code: String representation of processed (numeric) code.
+    Returns:
+        A new code if it can be valid or the original code.
     """
-    if
+    if not validation.is_code_numeric(processed_code):
+        handle_invalid_digits(code, processed_code)
     pass
 
 
@@ -98,7 +130,7 @@ def process_string_code(code):
             processed_code += "?"
 
     if not is_code_valid(processed_code):
-        try_to_fix_code(code, processed_code)
+        processed_code = try_to_fix_code(code, processed_code)
     return processed_code
 
 

@@ -51,7 +51,6 @@ def validate(processed_code):
         validation_result = True
     else:
         validation_result = False
-
     return validation_result
 
 
