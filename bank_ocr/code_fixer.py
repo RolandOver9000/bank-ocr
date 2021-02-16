@@ -98,7 +98,7 @@ def get_digits_from_code(code, digit_indexes):
     Returns:
         A dictionary of invalid digits(value) based on its index(key) in the code.
     """
-    invalid_digits = {}
+    digit_on_index = {}
     for index in range(NUMBER_OF_DIGITS):
         digit = ""
         starter_column_of_digit = index * DIGIT_CHARACTER_COLUMN
@@ -106,9 +106,9 @@ def get_digits_from_code(code, digit_indexes):
             row_starter_index = starter_column_of_digit + (row * NUMBER_OF_CHARACTERS_IN_LINE)
             digit += code[row_starter_index: row_starter_index + DIGIT_CHARACTER_COLUMN]
         if index in digit_indexes:
-            invalid_digits[index] = digit
+            digit_on_index[index] = digit
 
-    return invalid_digits
+    return digit_on_index
 
 
 def get_possible_valid_code_with_options(processed_code, valid_digit_options, index_of_invalid_digit):
