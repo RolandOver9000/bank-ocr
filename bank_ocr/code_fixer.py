@@ -4,7 +4,7 @@ NUMBER_OF_CHARACTERS_IN_LINE = 27
 NUMBER_OF_DIGIT_PRINT_LINE = 3
 NUMBER_OF_DIGITS = 9
 DIGIT_CHARACTER_COLUMN = 3
-SEGMENTS_IN_DIGIT = 7
+CHARACTERS_IN_DIGIT = NUMBER_OF_DIGIT_PRINT_LINE * DIGIT_CHARACTER_COLUMN
 DICT_OF_STRING_DIGITS = {
     " _ "
     "| |"
@@ -48,18 +48,38 @@ def is_code_valid(processed_code):
     return True if validation.validate(processed_code) else False
 
 
+def is_digit_valid(assembled_digit):
+    """
+    Checks if digit is valid.
+    :param assembled_digit: String representation of a possible digit.
+    Returns:
+        Boolean value based on digit evaluation.
+    """
+    return True if assembled_digit in DICT_OF_STRING_DIGITS.keys() else False
+
+
 def try_to_fix_digit(digit):
     """
-    Cuts the string digit to 3 parts and
+    Tries out if a wrong digit can be fixed by add or remove segment.
     :param digit: String representation of a digit.
     Returns:
-        A string that can be the fixed digit if it is possible, otherwise returns a ? .
+        A lis of possible numbers or an empty number if the digit cannot be fixed.
     """
-    segment_counter = 0
-    print(digit)
-    for line_counter in range(NUMBER_OF_DIGIT_PRINT_LINE):
-        line_of_digit = digit[line_counter * DIGIT_CHARACTER_COLUMN:(line_counter * DIGIT_CHARACTER_COLUMN) + 3]
-    pass
+    segments_representation = ['|', '_']
+    possible_solutions = []
+
+    for index, character in enumerate(digit):
+        if character == " ":
+            for segment in segments_representation:
+                assembled_digit = digit[0:index] + segment + digit[index + 1:]
+                if is_digit_valid(assembled_digit):
+                    possible_solutions.append(DICT_OF_STRING_DIGITS[assembled_digit])
+        else:
+            assembled_digit = digit[0:index] + " " + digit[index + 1:]
+            if is_digit_valid(assembled_digit):
+                possible_solutions.append(DICT_OF_STRING_DIGITS[assembled_digit])
+
+    return possible_solutions
 
 
 def get_invalid_number_indexes_from_code(processed_code):
@@ -108,8 +128,7 @@ def handle_invalid_digits(code, processed_code):
     invalid_digit_indexes = get_invalid_number_indexes_from_code(processed_code)
     invalid_digits = get_invalid_digits_from_code(code, invalid_digit_indexes)
     for invalid_digit in invalid_digits.values():
-        print(invalid_digit)
-        #try_to_fix_digit(invalid_digit)
+        print(try_to_fix_digit(invalid_digit))
     pass
 
 
