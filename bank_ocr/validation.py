@@ -67,6 +67,14 @@ def handle_validation():
     return validated_processed_codes
 
 
+def evaluate_code_status(processed_code, possible_solutions):
+    evaluated_value = ""
+    if validate(processed_code):
+        return evaluated_value
+    else:
+
+
+
 def handle_wrong_code():
     """
     Handles wrong code and the data saving into a file.

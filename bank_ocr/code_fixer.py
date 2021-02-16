@@ -135,7 +135,6 @@ def get_possible_valid_code_with_options(processed_code, valid_digit_options, in
         if validation.validate(fixed_process_code):
             validity_counter += 1
             possible_codes.append(fixed_process_code)
-        print(fixed_process_code)
     return possible_codes
 
 
@@ -145,19 +144,18 @@ def handle_invalid_digits(code, processed_code):
     :param code: String representation of digit code.
     :param processed_code: String representation of processed (numeric) code.
     Returns:
-        A code that
+        The number of possible solution(s) if the code has any.
     """
     invalid_digit_indexes = get_invalid_number_indexes_from_code(processed_code)
     invalid_digits = get_invalid_digits_from_code(code, invalid_digit_indexes)
     possible_solutions = []
+
     for index_of_invalid_digit, invalid_digit in invalid_digits.items():
         valid_digit_options = try_to_fix_digit(invalid_digit)
-        possible_solutions = \
+        possible_solutions += \
             get_possible_valid_code_with_options(processed_code, valid_digit_options, index_of_invalid_digit)
-        if len(possible_solutions)
-            print(valid_digit_options)
 
-    pass
+    return possible_solutions
 
 
 def try_to_fix_code(code, processed_code):
@@ -165,10 +163,10 @@ def try_to_fix_code(code, processed_code):
     :param code: String representation of digit code.
     :param processed_code: String representation of processed (numeric) code.
     Returns:
-        A new code if it can be valid or the original code.
+        The possible solutions of the code.
     """
     if not validation.is_code_numeric(processed_code):
-        handle_invalid_digits(code, processed_code)
+       return handle_invalid_digits(code, processed_code)
     pass
 
 
@@ -197,9 +195,6 @@ def process_string_code(code):
             processed_code += str(DICT_OF_STRING_DIGITS[digit])
         else:
             processed_code += "?"
-
-    if not is_code_valid(processed_code):
-        try_to_fix_code(code, processed_code)
     return processed_code
 
 
@@ -209,6 +204,13 @@ def handle_code_fix():
     Returns:
         The string list of processed bank codes.
     """
+    possible_solutions = []
+
     read_codes = code_reader.read_from_dummy_file()
     for code in read_codes:
-        process_string_code(code)
+        processed_code = process_string_code(code)
+        if not is_code_valid(processed_code):
+            possible_solutions = try_to_fix_code(code, processed_code)
+        else:
+            possible_solutions.append(processed_code)
+        validation.evaluate_code_status(processed_code, possible_solutions)
