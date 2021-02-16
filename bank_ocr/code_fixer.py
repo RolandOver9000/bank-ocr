@@ -117,6 +117,28 @@ def get_invalid_digits_from_code(code, invalid_digit_indexes):
     return invalid_digits
 
 
+def get_possible_valid_code_with_options(processed_code, valid_digit_options, index_of_invalid_digit):
+    """
+    Checks the variations of a possible code if there is only 1 wrong digit.
+    :param processed_code: String representation of processed (numeric) code.
+    :param valid_digit_options: The possible options about what a digit can be.
+    :param index_of_invalid_digit: The index of the wrong digit in the code.
+    Returns:
+        The possible codes that are valid.
+    """
+    validity_counter = 0
+    possible_codes = []
+    for digit_option in valid_digit_options:
+        fixed_process_code = processed_code[:index_of_invalid_digit] \
+                             + str(digit_option) \
+                             + processed_code[index_of_invalid_digit + 1:]
+        if validation.validate(fixed_process_code):
+            validity_counter += 1
+            possible_codes.append(fixed_process_code)
+        print(fixed_process_code)
+    return possible_codes
+
+
 def handle_invalid_digits(code, processed_code):
     """
     Manages the process of invalid digit repair.
@@ -127,8 +149,14 @@ def handle_invalid_digits(code, processed_code):
     """
     invalid_digit_indexes = get_invalid_number_indexes_from_code(processed_code)
     invalid_digits = get_invalid_digits_from_code(code, invalid_digit_indexes)
-    for invalid_digit in invalid_digits.values():
-        print(try_to_fix_digit(invalid_digit))
+    possible_solutions = []
+    for index_of_invalid_digit, invalid_digit in invalid_digits.items():
+        valid_digit_options = try_to_fix_digit(invalid_digit)
+        possible_solutions = \
+            get_possible_valid_code_with_options(processed_code, valid_digit_options, index_of_invalid_digit)
+        if len(possible_solutions)
+            print(valid_digit_options)
+
     pass
 
 
@@ -171,7 +199,7 @@ def process_string_code(code):
             processed_code += "?"
 
     if not is_code_valid(processed_code):
-        processed_code = try_to_fix_code(code, processed_code)
+        try_to_fix_code(code, processed_code)
     return processed_code
 
 
