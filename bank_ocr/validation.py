@@ -1,5 +1,4 @@
-from bank_ocr import code_reader
-from bank_ocr.code_writer import write_codes_to_file
+from bank_ocr import code_reader, code_writer
 
 
 def calculate_checksum(reversed_code):
@@ -55,6 +54,6 @@ def handle_wrong_code():
         Read data from the file that contains the processed bank codes represented as a string.
     """
     processed_codes = handle_validation()
-    write_codes_to_file(processed_codes)
+    code_writer.write_validated_codes_to_file(processed_codes)
     print(processed_codes)
     pass
