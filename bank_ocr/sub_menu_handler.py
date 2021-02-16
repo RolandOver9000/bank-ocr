@@ -20,3 +20,10 @@ def handle_user_story_3_sub_menu():
     Prints the "Handle wrong code" task.
     """
     print(validation.handle_wrong_code())
+
+
+def handle_user_story_4_sub_menu():
+    """
+    Prints the "Try to fix wrong code" task.
+    """
+    pass
