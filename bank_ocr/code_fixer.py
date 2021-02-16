@@ -191,6 +191,16 @@ def handle_checksum_error(code, processed_code):
     return possible_solutions
 
 
+def is_code_contain_multiple_bad_digits(processed_code):
+    """
+    Checks if the processed code has multiple wrong digit.
+    :param processed_code: String representation of processed (numeric) code.
+    Returns:
+        A boolean based on the number of the wrong digits that the processed code contains.
+    """
+    return True if list(processed_code).count("?") > 1 else False
+
+
 def handle_code_fix():
     """
     Handles the process of code fixer.
@@ -211,7 +221,7 @@ def handle_code_fix():
         if evaluation != DIGIT_ERROR_STATUS and evaluation != CHECKSUM_ERROR_STATUS:
             final_evaluation[processed_code] = VALID_CODE_STATUS
         else:
-            if evaluation == DIGIT_ERROR_STATUS:
+            if evaluation == DIGIT_ERROR_STATUS and not is_code_contain_multiple_bad_digits(processed_code):
                 possible_solutions = handle_invalid_digits(code, processed_code)
             elif evaluation == CHECKSUM_ERROR_STATUS:
                 possible_solutions = handle_checksum_error(code, processed_code)
