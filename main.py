@@ -26,8 +26,7 @@ def handle_menu():
     options = ["Analyze data from dummy file (User story 1)",
                "Validate data from dummy file (User story 2)",
                "Handle wrong code (User story 3)",
-               "Try to fix wrong code (User story 4)",
-               "User story 5"]
+               "Try to fix wrong code (User story 4)"]
 
     util.print_menu("Main menu", options, "Exit program")
 
