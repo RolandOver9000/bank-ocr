@@ -76,6 +76,27 @@ def get_invalid_number_indexes_from_code(processed_code):
     return invalid_digit_indexes
 
 
+def get_invalid_digits_from_code(code, invalid_digit_indexes):
+    """
+    Collects all invalid digits in a code.
+    :param code: String representation of digit code.
+    :param invalid_digit_indexes: Indexes of the invalid digits.
+    Returns:
+        A dictionary of invalid digits(value) based on its index(key) in the code.
+    """
+    invalid_digits = {}
+    for index in range(NUMBER_OF_DIGITS):
+        digit = ""
+        starter_column_of_digit = index * DIGIT_CHARACTER_COLUMN
+        for row in range(NUMBER_OF_DIGIT_PRINT_LINE):
+            row_starter_index = starter_column_of_digit + (row * NUMBER_OF_CHARACTERS_IN_LINE)
+            digit += code[row_starter_index: row_starter_index + DIGIT_CHARACTER_COLUMN]
+        if index in invalid_digit_indexes:
+            invalid_digits[index] = digit
+
+    return invalid_digits
+
+
 def handle_invalid_digits(code, processed_code):
     """
     Manages the process of invalid digit repair.
@@ -85,9 +106,10 @@ def handle_invalid_digits(code, processed_code):
         A code that
     """
     invalid_digit_indexes = get_invalid_number_indexes_from_code(processed_code)
-    for invalid_digit_index in invalid_digit_indexes:
-        get_digit_from_code(code, invalid_digit_index)
-        try_to_fix_digit()
+    invalid_digits = get_invalid_digits_from_code(code, invalid_digit_indexes)
+    for invalid_digit in invalid_digits.values():
+        print(invalid_digit)
+        #try_to_fix_digit(invalid_digit)
     pass
 
 
