@@ -106,7 +106,11 @@ def read_from_dummy_file():
 
 
 def read_validated_codes():
-
+    """
+    Reads the validated codes from the result file (validated_dummy_data.txt).
+    Returns:
+        A string with the read data.
+    """
     with open(VALIDATED_DUMMY_FILE_NAME, "r") as file:
         return file.read()
 
