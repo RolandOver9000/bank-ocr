@@ -37,7 +37,7 @@ def validate(processed_codes):
     return validation_result
 
 
-def handle_process():
+def handle_validation():
     """
     Handles the process of bank code validation.
     Returns:

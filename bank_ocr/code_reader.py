@@ -98,7 +98,7 @@ def read_from_dummy_file():
     return lines
 
 
-def handle_process():
+def handle_code_reading():
     """
     Handles the process of code reader.
     Returns:
