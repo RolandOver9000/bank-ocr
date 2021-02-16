@@ -59,6 +59,7 @@ def process_string_code(code):
         for row in range(NUMBER_OF_DIGIT_PRINT_LINE):
             row_starter_index = starter_column_of_digit + (row * NUMBER_OF_CHARACTERS_IN_LINE)
             digit += code[row_starter_index: row_starter_index + DIGIT_CHARACTER_COLUMN]
+
         if digit in DICT_OF_STRING_DIGITS.keys():
             processed_code += str(DICT_OF_STRING_DIGITS[digit])
         else:
