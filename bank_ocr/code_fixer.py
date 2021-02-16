@@ -205,8 +205,10 @@ def handle_code_fix():
         evaluation = is_code_valid(processed_code)
         if evaluation == "ILL":
             possible_solutions = handle_invalid_digits(code, processed_code)
+            evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
+            final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
         elif evaluation == "ERR":
-            pass
-        evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
-        final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
+            final_evaluation[processed_code] = "ERR"
+        else:
+            final_evaluation[processed_code] = ""
     code_writer.write_validated_codes_to_file(final_evaluation)
