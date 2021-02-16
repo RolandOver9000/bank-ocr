@@ -158,18 +158,6 @@ def handle_invalid_digits(code, processed_code):
     return possible_solutions
 
 
-def try_to_fix_code(code, processed_code):
-    """
-    :param code: String representation of digit code.
-    :param processed_code: String representation of processed (numeric) code.
-    Returns:
-        The possible solutions of the code.
-    """
-    if not validation.is_code_numeric(processed_code):
-       return
-    pass
-
-
 def process_string_code(code):
     """
     Processes the bank code. It handles the string code like a matrix. Each code is a 3x3 string. For example
