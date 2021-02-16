@@ -1,4 +1,4 @@
-from bank_ocr import code_reader, validation
+from bank_ocr import code_reader, validation, code_fixer
 
 
 def handle_user_story_1_sub_menu():
@@ -26,4 +26,5 @@ def handle_user_story_4_sub_menu():
     """
     Prints the "Try to fix wrong code" task.
     """
+    code_fixer.handle_code_fix()
     pass

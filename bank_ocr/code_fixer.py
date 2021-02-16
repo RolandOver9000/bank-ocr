@@ -1,3 +1,5 @@
+from bank_ocr import validation, code_reader
+
 NUMBER_OF_CHARACTERS_IN_LINE = 27
 NUMBER_OF_DIGIT_PRINT_LINE = 3
 NUMBER_OF_DIGITS = 9
@@ -36,6 +38,19 @@ DICT_OF_STRING_DIGITS = {
 }
 
 
+def is_code_valid(processed_code):
+    """
+    :param processed_code: String of the code in number format.
+    Returns:
+        A boolean based on the code validation.
+    """
+    return True if validation.validate(processed_code) else False
+
+
+def try_to_fix_digit(digit):
+    pass
+
+
 def process_string_code(code):
     """
     Processes the bank code. It handles the string code like a matrix. Each code is a 3x3 string. For example
@@ -56,8 +71,16 @@ def process_string_code(code):
         for row in range(NUMBER_OF_DIGIT_PRINT_LINE):
             row_starter_index = starter_column_of_digit + (row * NUMBER_OF_CHARACTERS_IN_LINE)
             digit += code[row_starter_index: row_starter_index + DIGIT_CHARACTER_COLUMN]
+
         if digit in DICT_OF_STRING_DIGITS.keys():
             processed_code += str(DICT_OF_STRING_DIGITS[digit])
         else:
+            try_to_fix_digit(digit)
             processed_code += "?"
     return processed_code
+
+
+def handle_code_fix():
+    read_codes = code_reader.read_from_dummy_file()
+    for code in read_codes:
+        process_string_code(code)
