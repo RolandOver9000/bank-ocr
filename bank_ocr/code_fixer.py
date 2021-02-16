@@ -5,6 +5,9 @@ NUMBER_OF_DIGIT_PRINT_LINE = 3
 NUMBER_OF_DIGITS = 9
 DIGIT_CHARACTER_COLUMN = 3
 CHARACTERS_IN_DIGIT = NUMBER_OF_DIGIT_PRINT_LINE * DIGIT_CHARACTER_COLUMN
+CHECKSUM_ERROR_STATUS = "ERR"
+DIGIT_ERROR_STATUS = "ILL"
+VALID_CODE_STATUS = ""
 DICT_OF_STRING_DIGITS = {
     " _ "
     "| |"
@@ -123,7 +126,7 @@ def get_possible_valid_code_with_options(processed_code, valid_digit_options, in
         fixed_process_code = processed_code[:index_of_invalid_digit] \
                              + str(digit_option) \
                              + processed_code[index_of_invalid_digit + 1:]
-        if validation.is_valid(fixed_process_code):
+        if validation.get_validation_status(fixed_process_code) == VALID_CODE_STATUS:
             validity_counter += 1
             possible_codes.append(fixed_process_code)
     return possible_codes
@@ -203,16 +206,15 @@ def handle_code_fix():
     read_codes = code_reader.read_from_dummy_file()
     for code in read_codes:
         processed_code = code_reader.process_string_code(code)
-        evaluation = validation.is_valid(processed_code)
-        if evaluation == "ILL":
+        evaluation = validation.get_validation_status(processed_code)
+        if evaluation == DIGIT_ERROR_STATUS:
             possible_solutions = handle_invalid_digits(code, processed_code)
             evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
             final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
-        elif evaluation == "ERR":
+        elif evaluation == CHECKSUM_ERROR_STATUS:
             possible_solutions = handle_checksum_error(code, processed_code)
             evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
             final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
-            final_evaluation[processed_code] = "ERR"
         else:
-            final_evaluation[processed_code] = ""
+            final_evaluation[processed_code] = VALID_CODE_STATUS
     code_writer.write_validated_codes_to_file(final_evaluation)
