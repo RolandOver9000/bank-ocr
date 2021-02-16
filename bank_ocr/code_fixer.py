@@ -45,7 +45,7 @@ def is_code_valid(processed_code):
     Returns:
         A boolean based on the code validation.
     """
-    return True if validation.validate(processed_code) else False
+    return True if validation.is_valid(processed_code) else False
 
 
 def is_digit_valid(assembled_digit):
@@ -132,7 +132,7 @@ def get_possible_valid_code_with_options(processed_code, valid_digit_options, in
         fixed_process_code = processed_code[:index_of_invalid_digit] \
                              + str(digit_option) \
                              + processed_code[index_of_invalid_digit + 1:]
-        if validation.validate(fixed_process_code):
+        if validation.is_valid(fixed_process_code):
             validity_counter += 1
             possible_codes.append(fixed_process_code)
     return possible_codes

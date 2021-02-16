@@ -39,7 +39,7 @@ def is_code_valid_checksum(code):
     return int(code) > 0 and calculate_checksum(code) % 11 == 0
 
 
-def validate(processed_code):
+def is_valid(processed_code):
     """
     Validates the code based on the gives rule.
     :param processed_code: String of bank code.
@@ -63,13 +63,13 @@ def handle_validation():
     processed_codes = code_reader.handle_code_reading()
     validated_processed_codes = {}
     for processed_code in processed_codes:
-        validated_processed_codes[processed_code] = validate(processed_code)
+        validated_processed_codes[processed_code] = is_valid(processed_code)
     return validated_processed_codes
 
 
 def evaluate_code_status(processed_code, possible_solutions):
     evaluated_value = ""
-    if validate(processed_code):
+    if is_valid(processed_code):
         return evaluated_value
     else:
 
