@@ -100,6 +100,7 @@ def read_from_dummy_file():
                 lines.append(line)
                 line = ""
         lines.append(line)
+        print(lines)
     return lines
 
 
