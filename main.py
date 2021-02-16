@@ -3,8 +3,6 @@ import sys
 
 from bank_ocr import sub_menu_handler
 
-# rename functions
-
 
 def choose():
     user_input = util.get_input()
