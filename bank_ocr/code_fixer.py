@@ -149,6 +149,27 @@ def handle_invalid_digits(code, processed_code):
     return possible_solutions
 
 
+def get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations):
+    """
+    Checks if a code can be valid based on the possible digits on a specific index.
+    :param index_of_digit: Index of the digit that can be interchangeable with the given possible digit variations.
+    :param processed_code: String representation of processed (numeric) code.
+    :param possible_digit_variations: The list of the numbers that can be interchangeable with the number that is on
+    the given index.
+    Returns:
+        A list of valid codes.
+    """
+    valid_codes = []
+
+    for digit in possible_digit_variations:
+        code_variation = processed_code[:index_of_digit] + str(digit) + processed_code[index_of_digit + 1:]
+        if validation.is_code_valid_checksum(code_variation):
+            valid_codes.append(code_variation)
+    return valid_codes
+
+
+# In the case of checksum errors maybe would be better to save out what number can be converted into another number
+# because it will be always fix.
 def handle_checksum_error(code, processed_code):
     """
     Handles the process of the checksum error fix. It iterates over the digits of the code and collects all the possible
@@ -159,12 +180,12 @@ def handle_checksum_error(code, processed_code):
         The possible solution(s) if the code has any.
     """
     invalid_digits = get_digits_from_code(code, range(len(processed_code)))
-    possible_digit_variations_per_index = {}
+    possible_solutions = []
 
     for index_of_digit, digit in invalid_digits.items():
-        possible_digit_variations_per_index[index_of_digit] = try_to_fix_digit(digit)
-
-    print(possible_digit_variations_per_index)
+        possible_digit_variations = try_to_fix_digit(digit)
+        possible_solutions = get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations)
+    print(possible_solutions)
     pass
 
 
