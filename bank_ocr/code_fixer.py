@@ -1,4 +1,4 @@
-from bank_ocr import validation, code_reader
+from bank_ocr import validation, code_reader, code_writer
 
 NUMBER_OF_CHARACTERS_IN_LINE = 27
 NUMBER_OF_DIGIT_PRINT_LINE = 3
@@ -189,10 +189,15 @@ def process_string_code(code):
 def handle_code_fix():
     """
     Handles the process of code fixer.
+    - Evaluates code then if it is wrong, it starts the fixing process, then evaluates the result again and saves it.
+    - After that it starts the "write result into the file" process.
     Returns:
         The string list of processed bank codes.
     """
     possible_solutions = []
+    final_evaluation = {}
+    code_index = 0
+    evaluation_result_index = 1
 
     read_codes = code_reader.read_from_dummy_file()
     for code in read_codes:
@@ -202,4 +207,6 @@ def handle_code_fix():
             possible_solutions = handle_invalid_digits(code, processed_code)
         elif evaluation == "ERR":
             pass
-        validation.evaluate_fixed_code_status(processed_code, possible_solutions)
+        evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
+        final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
+    code_writer.write_validated_codes_to_file(final_evaluation)

@@ -69,12 +69,13 @@ def handle_validation():
     return validated_processed_codes
 
 
-def evaluate_fixed_code_status(processed_code, possible_solutions):
-    if is_valid(processed_code):
-        return ""
-    elif is_code_numeric(processed_code):
-        if not is_code_valid_checksum(processed_code):
-            return "ERR"
+def evaluate_fixed_code(processed_code, possible_solutions, previous_evaluation):
+    if not possible_solutions:
+        return [processed_code, previous_evaluation]
+    if len(possible_solutions) == 1:
+        return [possible_solutions[0], ""]
+    else:
+        return [processed_code, "AMB"]
 
 
 def handle_wrong_code():
