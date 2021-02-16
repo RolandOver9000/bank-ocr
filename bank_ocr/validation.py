@@ -29,7 +29,7 @@ def validate(processed_codes):
     validation_result = {}
     for code in processed_codes:
         reversed_code = code[::-1]
-        if int(code) > 0 and calculate_checksum(reversed_code) % 11 == 0:
+        if code.isnumeric() and int(code) > 0 and calculate_checksum(reversed_code) % 11 == 0:
             validation_result[code] = True
         else:
             validation_result[code] = False
@@ -49,5 +49,4 @@ def handle_validation():
 
 def handle_wrong_code():
     processed_codes = handle_validation()
-    print(processed_codes)
     pass
