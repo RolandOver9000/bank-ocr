@@ -70,6 +70,15 @@ def handle_validation():
 
 
 def evaluate_fixed_code(processed_code, possible_solutions, previous_evaluation):
+    """
+    Evaluates the fixed code based on the fix result.
+    :param processed_code: String representation of processed (numeric) code.
+    :param possible_solutions: List of the possible codes that are valid.
+    :param previous_evaluation: Previous evaluation of the code.
+    Returns:
+        A list that's first element is a result code, the second element is the re-evaluated value based
+        on the fix result(s).
+    """
     if not possible_solutions:
         return [processed_code, previous_evaluation]
     if len(possible_solutions) == 1:

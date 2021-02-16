@@ -87,11 +87,11 @@ def get_invalid_number_indexes_from_code(processed_code):
     return invalid_digit_indexes
 
 
-def get_invalid_digits_from_code(code, invalid_digit_indexes):
+def get_digits_from_code(code, digit_indexes):
     """
-    Collects all invalid digits in a code.
+    Collects all digits in a code based on index(es).
     :param code: String representation of digit code.
-    :param invalid_digit_indexes: Indexes of the invalid digits.
+    :param digit_indexes: Indexes of the invalid digits.
     Returns:
         A dictionary of invalid digits(value) based on its index(key) in the code.
     """
@@ -102,7 +102,7 @@ def get_invalid_digits_from_code(code, invalid_digit_indexes):
         for row in range(NUMBER_OF_DIGIT_PRINT_LINE):
             row_starter_index = starter_column_of_digit + (row * NUMBER_OF_CHARACTERS_IN_LINE)
             digit += code[row_starter_index: row_starter_index + DIGIT_CHARACTER_COLUMN]
-        if index in invalid_digit_indexes:
+        if index in digit_indexes:
             invalid_digits[index] = digit
 
     return invalid_digits
@@ -138,7 +138,7 @@ def handle_invalid_digits(code, processed_code):
         The number of possible solution(s) if the code has any.
     """
     invalid_digit_indexes = get_invalid_number_indexes_from_code(processed_code)
-    invalid_digits = get_invalid_digits_from_code(code, invalid_digit_indexes)
+    invalid_digits = get_digits_from_code(code, invalid_digit_indexes)
     possible_solutions = []
 
     for index_of_invalid_digit, invalid_digit in invalid_digits.items():
@@ -147,6 +147,23 @@ def handle_invalid_digits(code, processed_code):
             get_possible_valid_code_with_options(processed_code, valid_digit_options, index_of_invalid_digit)
 
     return possible_solutions
+
+
+def handle_checksum_error(code, processed_code):
+    """
+
+    :param code:
+    :param processed_code:
+    :return:
+    """
+    invalid_digits = get_digits_from_code(code, range(len(processed_code)))
+    possible_digit_variations_per_index = {}
+
+    for index_of_digit, digit in invalid_digits.items():
+        possible_digit_variations_per_index[index_of_digit] = try_to_fix_digit(digit)
+
+    print(possible_digit_variations_per_index)
+    pass
 
 
 def handle_code_fix():
@@ -170,6 +187,9 @@ def handle_code_fix():
             evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
             final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
         elif evaluation == "ERR":
+            possible_solutions = handle_checksum_error(code, processed_code)
+            evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
+            final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
             final_evaluation[processed_code] = "ERR"
         else:
             final_evaluation[processed_code] = ""
