@@ -10,9 +10,5 @@ def write_validated_codes_to_file(processed_codes):
         pass
 
     with open(DUMMY_FILE_NAME, "w") as file:
-        for key, value in processed_codes.items():
-            if key.isnumeric():
-                evaluated_value = "ERR" if not value else ""
-                file.writelines(key + " " + evaluated_value + "\n")
-            else:
-                file.writelines(key + " ILL\n")
+        for processed_code, evaluation in processed_codes.items():
+            file.writelines(processed_code + " " + evaluation + "\n")

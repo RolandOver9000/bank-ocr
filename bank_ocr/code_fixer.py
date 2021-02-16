@@ -45,7 +45,7 @@ def is_code_valid(processed_code):
     Returns:
         A boolean based on the code validation.
     """
-    return True if validation.is_valid(processed_code) else False
+    return True if validation.is_valid(processed_code) == "" else False
 
 
 def is_digit_valid(assembled_digit):
@@ -209,7 +209,8 @@ def handle_code_fix():
     read_codes = code_reader.read_from_dummy_file()
     for code in read_codes:
         processed_code = process_string_code(code)
-        if not is_code_valid(processed_code):
+        evaluation = is_code_valid(processed_code)
+
             possible_solutions = try_to_fix_code(code, processed_code)
         else:
             possible_solutions.append(processed_code)

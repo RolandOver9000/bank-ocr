@@ -47,11 +47,13 @@ def is_valid(processed_code):
         A boolean value based on the validity.
     """
     reversed_code = processed_code[::-1]
-    if is_code_numeric(reversed_code) and is_code_valid_checksum(reversed_code):
-        validation_result = True
+    if is_code_numeric(reversed_code):
+        if is_code_valid_checksum(reversed_code):
+            return ""
+        else:
+            return "ERR"
     else:
-        validation_result = False
-    return validation_result
+        return "ILL"
 
 
 def handle_validation():
@@ -68,11 +70,11 @@ def handle_validation():
 
 
 def evaluate_code_status(processed_code, possible_solutions):
-    evaluated_value = ""
     if is_valid(processed_code):
-        return evaluated_value
-    else:
-
+        return ""
+    elif is_code_numeric(processed_code):
+        if not is_code_valid_checksum(processed_code):
+            return "ERR"
 
 
 def handle_wrong_code():
