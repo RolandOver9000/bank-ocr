@@ -48,4 +48,6 @@ def handle_validation():
 
 
 def handle_wrong_code():
+    processed_codes = handle_validation()
+    print(processed_codes)
     pass
