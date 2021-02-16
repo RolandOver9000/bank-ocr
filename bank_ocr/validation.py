@@ -1,5 +1,10 @@
 from bank_ocr import code_reader, code_writer
 
+CHECKSUM_ERROR_STATUS = "ERR"
+DIGIT_ERROR_STATUS = "ILL"
+VALID_CODE_STATUS = ""
+MULTIPLE_VALID_CODE_STATUS = "AMB"
+
 
 def calculate_checksum(reversed_code):
     """
@@ -19,24 +24,41 @@ def calculate_checksum(reversed_code):
     return calculated_checksum
 
 
-def validate(processed_codes):
+def is_code_numeric(code):
+    """
+    Checks if the code is numeric.
+    :param code: String
+    Returns:
+        A boolean value based on the evaluation.
+    """
+    return code.isnumeric()
+
+
+def is_code_valid_checksum(code):
+    """
+    Checks if checksum is valid.
+    :param code: String
+    Returns:
+        A boolean value if checksum is correct.
+    """
+    reversed_code = code[::-1]
+    return int(code) > 0 and calculate_checksum(reversed_code) % 11 == 0
+
+
+def get_validation_status(processed_code):
     """
     Validates the code based on the gives rule.
-    :param processed_codes: String list of bank codes.
+    :param processed_code: String of bank code.
     Returns:
-        A dictionary with the string codes(key) and with a boolean value based on the validity(value).
+        A boolean value based on the validity.
     """
-    validation_result = {}
-    for code in processed_codes:
-        reversed_code = code[::-1]
-        if code.isnumeric() and\
-                int(code) > 0 and\
-                calculate_checksum(reversed_code) % 11 == 0:
-            validation_result[code] = True
+    if is_code_numeric(processed_code):
+        if is_code_valid_checksum(processed_code):
+            return VALID_CODE_STATUS
         else:
-            validation_result[code] = False
-
-    return validation_result
+            return CHECKSUM_ERROR_STATUS
+    else:
+        return DIGIT_ERROR_STATUS
 
 
 def handle_validation():
@@ -46,7 +68,28 @@ def handle_validation():
         A dictionary with the string codes(key) and with a boolean value based on the validity(value).
     """
     processed_codes = code_reader.handle_code_reading()
-    return validate(processed_codes)
+    validated_processed_codes = {}
+    for processed_code in processed_codes:
+        validated_processed_codes[processed_code] = get_validation_status(processed_code)
+    return validated_processed_codes
+
+
+def evaluate_fixed_code(processed_code, possible_solutions, previous_evaluation):
+    """
+    Evaluates the fixed code based on the fix result.
+    :param processed_code: String representation of processed (numeric) code.
+    :param possible_solutions: List of the possible codes that are valid.
+    :param previous_evaluation: Previous evaluation of the code.
+    Returns:
+        A list that's first element is a result code, the second element is the re-evaluated value based
+        on the fix result(s).
+    """
+    if not possible_solutions:
+        return [processed_code, previous_evaluation]
+    if len(possible_solutions) == 1:
+        return [possible_solutions[0], VALID_CODE_STATUS]
+    else:
+        return [processed_code, MULTIPLE_VALID_CODE_STATUS]
 
 
 def handle_wrong_code():

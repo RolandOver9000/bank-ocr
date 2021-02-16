@@ -59,6 +59,7 @@ def process_string_code(code):
         for row in range(NUMBER_OF_DIGIT_PRINT_LINE):
             row_starter_index = starter_column_of_digit + (row * NUMBER_OF_CHARACTERS_IN_LINE)
             digit += code[row_starter_index: row_starter_index + DIGIT_CHARACTER_COLUMN]
+
         if digit in DICT_OF_STRING_DIGITS.keys():
             processed_code += str(DICT_OF_STRING_DIGITS[digit])
         else:
@@ -82,7 +83,7 @@ def process_read_lines(read_codes):
 def read_from_dummy_file():
 
     """
-    Reads from the /data/dummy_data.txt file.
+    Reads from the /data/dummy_data.txt file and expands it if there are missing spaces.
     Returns:
          The string list of codes that in the dummy file. 3 rows concatenated together to get a code in 1 list item.
     """
@@ -105,7 +106,11 @@ def read_from_dummy_file():
 
 
 def read_validated_codes():
-
+    """
+    Reads the validated codes from the result file (validated_dummy_data.txt).
+    Returns:
+        A string with the read data.
+    """
     with open(VALIDATED_DUMMY_FILE_NAME, "r") as file:
         return file.read()
 
