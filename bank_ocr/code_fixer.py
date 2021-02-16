@@ -39,15 +39,6 @@ DICT_OF_STRING_DIGITS = {
 }
 
 
-def is_code_valid(processed_code):
-    """
-    :param processed_code: String of the code in number format.
-    Returns:
-        A boolean based on the code validation.
-    """
-    return True if validation.is_valid(processed_code) == "" else False
-
-
 def is_digit_valid(assembled_digit):
     """
     Checks if digit is valid.
@@ -202,7 +193,7 @@ def handle_code_fix():
     read_codes = code_reader.read_from_dummy_file()
     for code in read_codes:
         processed_code = process_string_code(code)
-        evaluation = is_code_valid(processed_code)
+        evaluation = validation.is_valid(processed_code)
         if evaluation == "ILL":
             possible_solutions = handle_invalid_digits(code, processed_code)
             evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
