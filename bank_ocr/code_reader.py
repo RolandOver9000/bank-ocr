@@ -82,7 +82,7 @@ def process_read_lines(read_codes):
 def read_from_dummy_file():
 
     """
-    Reads from the /data/dummy_data.txt file.
+    Reads from the /data/dummy_data.txt file and expands it if there are missing spaces.
     Returns:
          The string list of codes that in the dummy file. 3 rows concatenated together to get a code in 1 list item.
     """

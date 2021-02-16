@@ -4,6 +4,7 @@ NUMBER_OF_CHARACTERS_IN_LINE = 27
 NUMBER_OF_DIGIT_PRINT_LINE = 3
 NUMBER_OF_DIGITS = 9
 DIGIT_CHARACTER_COLUMN = 3
+SEGMENTS_IN_DIGIT = 7
 DICT_OF_STRING_DIGITS = {
     " _ "
     "| |"
@@ -48,6 +49,25 @@ def is_code_valid(processed_code):
 
 
 def try_to_fix_digit(digit):
+    """
+    Cuts the string digit to 3 parts and
+    :param digit: String representation of a digit.
+    Returns:
+        A string that can be the fixed digit if it is possible, otherwise returns a ? .
+    """
+    segment_counter = 0
+    print(digit)
+    for line_counter in range(NUMBER_OF_DIGIT_PRINT_LINE):
+        line_of_digit = digit[line_counter * DIGIT_CHARACTER_COLUMN:(line_counter * DIGIT_CHARACTER_COLUMN) + 3]
+    pass
+
+
+def try_to_fix_code(code, processed_code):
+    """
+    :param code: String representation of digit code.
+    :param processed_code: String representation of processed (numeric) code.
+    :return:
+    """
     pass
 
 
@@ -75,12 +95,19 @@ def process_string_code(code):
         if digit in DICT_OF_STRING_DIGITS.keys():
             processed_code += str(DICT_OF_STRING_DIGITS[digit])
         else:
-            try_to_fix_digit(digit)
             processed_code += "?"
+
+    if not is_code_valid(processed_code):
+        try_to_fix_code(code, processed_code)
     return processed_code
 
 
 def handle_code_fix():
+    """
+    Handles the process of code fixer.
+    Returns:
+        The string list of processed bank codes.
+    """
     read_codes = code_reader.read_from_dummy_file()
     for code in read_codes:
         process_string_code(code)
