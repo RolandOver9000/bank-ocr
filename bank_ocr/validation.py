@@ -69,7 +69,7 @@ def handle_validation():
     return validated_processed_codes
 
 
-def evaluate_code_status(processed_code, possible_solutions):
+def evaluate_fixed_code_status(processed_code, possible_solutions):
     if is_valid(processed_code):
         return ""
     elif is_code_numeric(processed_code):

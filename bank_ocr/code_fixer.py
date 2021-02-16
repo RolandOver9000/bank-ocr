@@ -166,7 +166,7 @@ def try_to_fix_code(code, processed_code):
         The possible solutions of the code.
     """
     if not validation.is_code_numeric(processed_code):
-       return handle_invalid_digits(code, processed_code)
+       return
     pass
 
 
@@ -210,8 +210,8 @@ def handle_code_fix():
     for code in read_codes:
         processed_code = process_string_code(code)
         evaluation = is_code_valid(processed_code)
-
-            possible_solutions = try_to_fix_code(code, processed_code)
-        else:
-            possible_solutions.append(processed_code)
-        validation.evaluate_code_status(processed_code, possible_solutions)
+        if evaluation == "ILL":
+            possible_solutions = handle_invalid_digits(code, processed_code)
+        elif evaluation == "ERR":
+            pass
+        validation.evaluate_fixed_code_status(processed_code, possible_solutions)
