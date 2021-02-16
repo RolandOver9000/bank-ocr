@@ -3,6 +3,8 @@ import sys
 
 from bank_ocr import sub_menu_handler
 
+# rename functions
+
 
 def choose():
     user_input = util.get_input()
@@ -10,6 +12,8 @@ def choose():
         sub_menu_handler.handle_user_story_1_sub_menu()
     elif user_input == "2":
         sub_menu_handler.handle_user_story_2_sub_menu()
+    elif user_input == "3":
+        sub_menu_handler.handle_user_story_3_sub_menu()
     elif user_input == "0":
         sys.exit(0)
     else:
@@ -19,7 +23,7 @@ def choose():
 def handle_menu():
     options = ["Analyze data from dummy file (User story 1)",
                "Validate data from dummy file (User story 2)",
-               "User story 3",
+               "Handle wrong code (User story 3)",
                "User story 4",
                "User story 5"]
 

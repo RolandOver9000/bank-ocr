@@ -1,4 +1,4 @@
-from bank_ocr import code_reader
+from bank_ocr import code_reader, code_writer
 
 
 def calculate_checksum(reversed_code):
@@ -29,7 +29,9 @@ def validate(processed_codes):
     validation_result = {}
     for code in processed_codes:
         reversed_code = code[::-1]
-        if int(code) > 0 and calculate_checksum(reversed_code) % 11 == 0:
+        if code.isnumeric() and\
+                int(code) > 0 and\
+                calculate_checksum(reversed_code) % 11 == 0:
             validation_result[code] = True
         else:
             validation_result[code] = False
@@ -37,12 +39,22 @@ def validate(processed_codes):
     return validation_result
 
 
-def handle_process():
+def handle_validation():
     """
     Handles the process of bank code validation.
     Returns:
         A dictionary with the string codes(key) and with a boolean value based on the validity(value).
     """
-    processed_codes = code_reader.handle_process()
+    processed_codes = code_reader.handle_code_reading()
     return validate(processed_codes)
 
+
+def handle_wrong_code():
+    """
+    Handles wrong code and the data saving into a file.
+    Returns:
+        Read data from the file that contains the processed bank codes represented as a string.
+    """
+    processed_codes = handle_validation()
+    code_writer.write_validated_codes_to_file(processed_codes)
+    return code_reader.read_validated_codes()
