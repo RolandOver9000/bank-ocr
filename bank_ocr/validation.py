@@ -19,22 +19,20 @@ def calculate_checksum(reversed_code):
     return calculated_checksum
 
 
-def validate(processed_codes):
+def validate(processed_code):
     """
     Validates the code based on the gives rule.
-    :param processed_codes: String list of bank codes.
+    :param processed_code: String of bank code.
     Returns:
-        A dictionary with the string codes(key) and with a boolean value based on the validity(value).
+        A boolean value based on the validity.
     """
-    validation_result = {}
-    for code in processed_codes:
-        reversed_code = code[::-1]
-        if code.isnumeric() and\
-                int(code) > 0 and\
-                calculate_checksum(reversed_code) % 11 == 0:
-            validation_result[code] = True
-        else:
-            validation_result[code] = False
+    reversed_code = processed_code[::-1]
+    if processed_code.isnumeric() and\
+            int(processed_code) > 0 and\
+            calculate_checksum(reversed_code) % 11 == 0:
+        validation_result = True
+    else:
+        validation_result = False
 
     return validation_result
 
@@ -46,7 +44,10 @@ def handle_validation():
         A dictionary with the string codes(key) and with a boolean value based on the validity(value).
     """
     processed_codes = code_reader.handle_code_reading()
-    return validate(processed_codes)
+    validated_processed_codes = {}
+    for processed_code in processed_codes:
+        validated_processed_codes[processed_code] = validate(processed_code)
+    return validated_processed_codes
 
 
 def handle_wrong_code():
