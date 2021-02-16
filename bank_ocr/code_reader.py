@@ -1,5 +1,6 @@
 
 DUMMY_FILE_NAME = "data/dummy_data.txt"
+VALIDATED_DUMMY_FILE_NAME = "data/validated_dummy_data.txt"
 NUMBER_OF_CHARACTERS_IN_LINE = 27
 NUMBER_OF_DIGIT_PRINT_LINE = 3
 NUMBER_OF_DIGITS = 9
@@ -100,8 +101,13 @@ def read_from_dummy_file():
                 lines.append(line)
                 line = ""
         lines.append(line)
-        print(lines)
     return lines
+
+
+def read_validated_codes():
+
+    with open(VALIDATED_DUMMY_FILE_NAME, "r") as file:
+        return file.read()
 
 
 def handle_code_reading():
