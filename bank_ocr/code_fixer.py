@@ -185,8 +185,7 @@ def handle_checksum_error(code, processed_code):
     for index_of_digit, digit in invalid_digits.items():
         possible_digit_variations = try_to_fix_digit(digit)
         possible_solutions = get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations)
-    print(possible_solutions)
-    pass
+    return possible_solutions
 
 
 def handle_code_fix():

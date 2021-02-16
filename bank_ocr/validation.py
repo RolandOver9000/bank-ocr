@@ -36,7 +36,8 @@ def is_code_valid_checksum(code):
     Returns:
         A boolean value if checksum is correct.
     """
-    return int(code) > 0 and calculate_checksum(code) % 11 == 0
+    reversed_code = code[::-1]
+    return int(code) > 0 and calculate_checksum(reversed_code) % 11 == 0
 
 
 def is_valid(processed_code):
@@ -46,9 +47,8 @@ def is_valid(processed_code):
     Returns:
         A boolean value based on the validity.
     """
-    reversed_code = processed_code[::-1]
-    if is_code_numeric(reversed_code):
-        if is_code_valid_checksum(reversed_code):
+    if is_code_numeric(processed_code):
+        if is_code_valid_checksum(processed_code):
             return ""
         else:
             return "ERR"
