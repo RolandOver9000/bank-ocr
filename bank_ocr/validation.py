@@ -43,6 +43,9 @@ def handle_validation():
     Returns:
         A dictionary with the string codes(key) and with a boolean value based on the validity(value).
     """
-    processed_codes = code_reader.handle_process()
+    processed_codes = code_reader.handle_code_reading()
     return validate(processed_codes)
 
+
+def handle_wrong_code():
+    pass

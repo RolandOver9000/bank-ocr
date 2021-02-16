@@ -19,4 +19,4 @@ def handle_user_story_3_sub_menu():
     """
     Prints the "Handle wrong code" task.
     """
-    print()
+    print(validation.handle_wrong_code())
