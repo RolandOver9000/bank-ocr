@@ -66,8 +66,8 @@ def try_to_fix_code(code, processed_code):
     """
     :param code: String representation of digit code.
     :param processed_code: String representation of processed (numeric) code.
-    :return:
     """
+    if
     pass
 
 

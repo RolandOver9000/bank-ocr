@@ -19,6 +19,26 @@ def calculate_checksum(reversed_code):
     return calculated_checksum
 
 
+def is_code_numeric(code):
+    """
+    Checks if the code is numeric.
+    :param code: String
+    Returns:
+        A boolean value based on the evaluation.
+    """
+    return code.isnumeric()
+
+
+def is_code_valid_checksum(code):
+    """
+    Checks if checksum is valid.
+    :param code: String
+    Returns:
+        A boolean value if checksum is correct.
+    """
+    return int(code) > 0 and calculate_checksum(code) % 11 == 0
+
+
 def validate(processed_code):
     """
     Validates the code based on the gives rule.
@@ -27,9 +47,7 @@ def validate(processed_code):
         A boolean value based on the validity.
     """
     reversed_code = processed_code[::-1]
-    if processed_code.isnumeric() and\
-            int(processed_code) > 0 and\
-            calculate_checksum(reversed_code) % 11 == 0:
+    if is_code_numeric(reversed_code) and is_code_valid_checksum(reversed_code):
         validation_result = True
     else:
         validation_result = False
