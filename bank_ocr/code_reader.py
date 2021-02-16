@@ -45,7 +45,8 @@ def process_string_code(code):
     and concatenate 2:0 -> 2:3. Then the outer for "step a digit" and the inner for goes again.
     Then it searches the string digit in the dictionary of digits and concatenate the numbers.
     :param code: String of a bank code that broken into lines and concatenated.
-    :return:
+    Returns:
+        String of the code in number format.
     """
     processed_code = ""
 
@@ -64,12 +65,12 @@ def process_read_lines(read_codes):
     Processes the rows of the file.
     :param read_codes: List of strings
     Returns:
-        List of the read codes.
+        String list of the read codes.
     """
     code_list = []
     for code in read_codes:
         code_list.append(process_string_code(code))
-    print(code_list)
+    return code_list
 
 
 def read_from_dummy_file():
@@ -100,6 +101,8 @@ def read_from_dummy_file():
 def handle_process():
     """
     Handles the process of code reader.
+    Returns:
+        The string list of processed bank codes.
     """
     read_lines = read_from_dummy_file()
-    process_read_lines(read_lines)
+    return process_read_lines(read_lines)

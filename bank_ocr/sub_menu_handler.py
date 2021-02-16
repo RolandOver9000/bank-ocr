@@ -1,21 +1,17 @@
-import util
-from bank_ocr import code_reader
+from bank_ocr import code_reader, validation
 
 
 def handle_user_story_1_sub_menu():
     """
     Prints the options of the sub-menu and get the user input.
     """
-    options = ["Analyze data from dummy file"]
-    util.print_menu("Code reader menu", options, "Exit program")
-    user_input = util.get_input()
-    handle_user_input(user_input)
+    print(code_reader.handle_process())
 
 
-def handle_user_input(user_input):
+def handle_user_story_2_sub_menu():
     """
-    Navigates to the chosen process.
-    :param user_input: string
+    Prints the options of the sub-menu and get the user input.
     """
-    if user_input == "1":
-        code_reader.handle_process()
+    print(validation.handle_process())
+
+
