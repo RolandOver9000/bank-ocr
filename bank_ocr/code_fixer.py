@@ -135,7 +135,7 @@ def handle_invalid_digits(code, processed_code):
     :param code: String representation of digit code.
     :param processed_code: String representation of processed (numeric) code.
     Returns:
-        The number of possible solution(s) if the code has any.
+        The possible solution(s) if the code has any.
     """
     invalid_digit_indexes = get_invalid_number_indexes_from_code(processed_code)
     invalid_digits = get_digits_from_code(code, invalid_digit_indexes)
@@ -151,10 +151,12 @@ def handle_invalid_digits(code, processed_code):
 
 def handle_checksum_error(code, processed_code):
     """
-
-    :param code:
-    :param processed_code:
-    :return:
+    Handles the process of the checksum error fix. It iterates over the digits of the code and collects all the possible
+    variations of the digit based on digit manipulation that happens in try_to_fix_digit.
+    :param code: String representation of digit code.
+    :param processed_code: String representation of processed (numeric) code.
+    Returns:
+        The possible solution(s) if the code has any.
     """
     invalid_digits = get_digits_from_code(code, range(len(processed_code)))
     possible_digit_variations_per_index = {}
