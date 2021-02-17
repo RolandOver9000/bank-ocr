@@ -11,34 +11,53 @@ VALID_CODE_STATUS = ""
 DICT_OF_STRING_DIGITS = {
     " _ "
     "| |"
-    "|_|": 0,
+    "|_|": '0',
     "   "
     "  |"
-    "  |": 1,
+    "  |": '1',
     " _ "
     " _|"
-    "|_ ": 2,
+    "|_ ": '2',
     " _ "
     " _|"
-    " _|": 3,
+    " _|": '3',
     "   "
     "|_|"
-    "  |": 4,
+    "  |": '4',
     " _ "
     "|_ "
-    " _|": 5,
+    " _|": '5',
     " _ "
     "|_ "
-    "|_|": 6,
+    "|_|": '6',
     " _ "
     "  |"
-    "  |": 7,
+    "  |": '7',
     " _ "
     "|_|"
-    "|_|": 8,
+    "|_|": '8',
     " _ "
     "|_|"
-    " _|": 9
+    " _|": '9',
+    " _ "
+    "|_|"
+    "| |": 'A',
+    " _  "
+    "|_\""
+    "|_/": 'B',
+    " _ "
+    "|  "
+    "|_ ": 'C',
+    " _ "
+    "| \""
+    "|_/": 'D',
+    " _ "
+    "|_ "
+    "|_ ": 'E',
+    " _ "
+    "|_ "
+    "|  ": 'F'
+
 }
 
 
@@ -59,7 +78,7 @@ def try_to_fix_digit(digit):
     Returns:
         A lis of possible numbers or an empty number if the digit cannot be fixed.
     """
-    segments_representation = ['|', '_']
+    segments_representation = ['|', '_', '\\', '/']
     possible_solutions = []
     for index, character in enumerate(digit):
         if character == " ":
@@ -127,43 +146,38 @@ def get_single_digit_from_code(code, digit_index):
     return digit
 
 
-def get_possible_valid_code_with_options(processed_code, valid_digit_options, index_of_invalid_digit):
+def get_possible_valid_code(processed_code, valid_digit_options, index_of_invalid_digit):
     """
     Checks the variations of a possible code if there is only 1 wrong digit.
     :param processed_code: String representation of processed (numeric) code.
     :param valid_digit_options: The possible options about what a digit can be.
     :param index_of_invalid_digit: The index of the wrong digit in the code.
     Returns:
-        The possible codes that are valid.
+        The possible code that are valid or empty list.
     """
     validity_counter = 0
-    possible_codes = []
     for digit_option in valid_digit_options:
         fixed_process_code = processed_code[:index_of_invalid_digit] \
                              + str(digit_option) \
                              + processed_code[index_of_invalid_digit + 1:]
         if validation.get_validation_status(fixed_process_code) == VALID_CODE_STATUS:
             validity_counter += 1
-            possible_codes.append(fixed_process_code)
-    return possible_codes
+            return [fixed_process_code]
+    return []
 
 
-def handle_invalid_digits(code, processed_code):
+def handle_invalid_digit(code, processed_code):
     """
     Manages the process of invalid digit repair.
     :param code: String representation of digit code.
     :param processed_code: String representation of processed (numeric) code.
     Returns:
-        The possible solution(s) if the code has any.
+        The possible solution if the code has any.
     """
-    possible_solutions = []
     invalid_digit_index = list(processed_code).index("?")
     invalid_digit = get_single_digit_from_code(code, invalid_digit_index)
     valid_digit_options = try_to_fix_digit(invalid_digit)
-    possible_solutions += \
-        get_possible_valid_code_with_options(processed_code, valid_digit_options, invalid_digit_index)
-
-    return possible_solutions
+    return get_possible_valid_code(processed_code, valid_digit_options, invalid_digit_index)
 
 
 def get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations):
@@ -177,7 +191,6 @@ def get_valid_number_variation(index_of_digit, processed_code, possible_digit_va
         A list of valid codes.
     """
     valid_codes = []
-
     for digit in possible_digit_variations:
         code_variation = processed_code[:index_of_digit] + str(digit) + processed_code[index_of_digit + 1:]
         if validation.is_code_valid_checksum(code_variation):
@@ -201,7 +214,9 @@ def handle_checksum_error(code, processed_code):
 
     for index_of_digit, digit in invalid_digits.items():
         possible_digit_variations = try_to_fix_digit(digit)
-        possible_solutions = get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations)
+        valid_number_variations = get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations)
+        if valid_number_variations:
+            possible_solutions += valid_number_variations
     return possible_solutions
 
 
@@ -212,7 +227,7 @@ def is_code_contain_multiple_bad_digits(processed_code):
     Returns:
         A boolean based on the number of the wrong digits that the processed code contains.
     """
-    return True if list(processed_code).count("?") > 1 else False
+    return True if list(processed_code).count("?") < 2 else False
 
 
 def handle_code_fix():
@@ -236,7 +251,7 @@ def handle_code_fix():
             final_evaluation[processed_code] = VALID_CODE_STATUS
         else:
             if evaluation == DIGIT_ERROR_STATUS and not is_code_contain_multiple_bad_digits(processed_code):
-                possible_solutions = handle_invalid_digits(code, processed_code)
+                possible_solutions = handle_invalid_digit(code, processed_code)
             elif evaluation == CHECKSUM_ERROR_STATUS:
                 possible_solutions = handle_checksum_error(code, processed_code)
             evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)

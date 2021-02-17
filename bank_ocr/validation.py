@@ -4,45 +4,77 @@ CHECKSUM_ERROR_STATUS = "ERR"
 DIGIT_ERROR_STATUS = "ILL"
 VALID_CODE_STATUS = ""
 MULTIPLE_VALID_CODE_STATUS = "AMB"
+HEXADECIMAL_TO_DECIMAL = {
+    'A': 10,
+    'B': 11,
+    'C': 12,
+    'D': 13,
+    'E': 14,
+    'F': 15
+}
 
 
-def calculate_checksum(reversed_code):
+def calculate_checksum(numbers):
     """
     Calculates the checksum based on a formula.
     For example:
         account number:  3  4  5  8  8  2  8  6  5
         position names:  d9 d8 d7 d6 d5 d4 d3 d2 d1
         checksum calculation:(d1+2*d2+3*d3+...+9*d9) mod 11 = 0
-    :param reversed_code: Reversed string version of the bank code.
+    :param numbers: Reversed string version of the bank code.
     Returns:
         A calculated checksum based on the formula.
     """
     calculated_checksum = 0
-    for index, number in enumerate(reversed_code):
+    for index, number in enumerate(numbers):
         # +1 because index starts from 0
         calculated_checksum += int(number) * (index + 1)
     return calculated_checksum
 
 
-def is_code_numeric(code):
+def is_code_hexadecimal(processed_code):
     """
-    Checks if the code is numeric.
-    :param code: String
+    Checks if the code is a valid hexadecimal number.
+    :param processed_code: String version of bank code.
     Returns:
         A boolean value based on the evaluation.
     """
-    return code.isnumeric()
+    return True if list(processed_code).count("?") == 0 else False
 
 
-def is_code_valid_checksum(code):
+def convert_code_to_decimal(digit_list):
+    """
+    Converts list of hexadecimal numbers to decimal.
+    :param digit_list: Hexadecimal list of numbers.
+    Returns:
+        A list that contains the decimal version of the given hexadecimal numbers.
+    """
+    converted_digits = []
+
+    for index, digit in enumerate(digit_list):
+        if not digit.isnumeric():
+            digit = HEXADECIMAL_TO_DECIMAL[digit]
+        converted_digits.append(digit)
+
+    return converted_digits
+
+
+def is_code_valid_checksum(processed_code):
     """
     Checks if checksum is valid.
-    :param code: String
+    :param processed_code: String of bank code.
     Returns:
         A boolean value if checksum is correct.
     """
-    reversed_code = code[::-1]
-    return int(code) > 0 and calculate_checksum(reversed_code) % 11 == 0
+
+    if processed_code.isnumeric():
+        list_of_digits = [int(digit) for digit in processed_code]
+        list_of_digits.reverse()
+    else:
+        converted_digits = convert_code_to_decimal(processed_code)
+        list_of_digits = [int(digit) for digit in converted_digits]
+
+    return sum(list_of_digits) > 0 and calculate_checksum(list_of_digits) % 11 == 0
 
 
 def get_validation_status(processed_code):
@@ -52,7 +84,7 @@ def get_validation_status(processed_code):
     Returns:
         A boolean value based on the validity.
     """
-    if is_code_numeric(processed_code):
+    if is_code_hexadecimal(processed_code):
         if is_code_valid_checksum(processed_code):
             return VALID_CODE_STATUS
         else:
