@@ -24,14 +24,15 @@ def calculate_checksum(reversed_code):
     return calculated_checksum
 
 
-def is_code_numeric(code):
+def is_code_hexadecimal(processed_code):
     """
-    Checks if the code is numeric.
-    :param code: String
+    Checks if the code is a valid hexadecimal number.
+    :param processed_code: String version of bank code.
     Returns:
         A boolean value based on the evaluation.
     """
-    return code.isnumeric()
+
+    return True if list(processed_code).count("?") > 0 else False
 
 
 def is_code_valid_checksum(code):
@@ -42,6 +43,7 @@ def is_code_valid_checksum(code):
         A boolean value if checksum is correct.
     """
     reversed_code = code[::-1]
+
     return int(code) > 0 and calculate_checksum(reversed_code) % 11 == 0
 
 
@@ -52,7 +54,7 @@ def get_validation_status(processed_code):
     Returns:
         A boolean value based on the validity.
     """
-    if is_code_numeric(processed_code):
+    if is_code_hexadecimal(processed_code):
         if is_code_valid_checksum(processed_code):
             return VALID_CODE_STATUS
         else:
