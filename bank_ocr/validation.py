@@ -93,19 +93,6 @@ def get_validation_status(processed_code):
         return DIGIT_ERROR_STATUS
 
 
-def handle_validation():
-    """
-    Handles the process of bank code validation.
-    Returns:
-        A dictionary with the string codes(key) and with a boolean value based on the validity(value).
-    """
-    processed_codes = code_reader.handle_code_reading()
-    validated_processed_codes = {}
-    for processed_code in processed_codes:
-        validated_processed_codes[processed_code] = get_validation_status(processed_code)
-    return validated_processed_codes
-
-
 def is_code_contain_multiple_bad_digits(processed_code):
     """
     Checks if the processed code has multiple wrong digit.
@@ -132,14 +119,3 @@ def evaluate_fixed_code(processed_code, possible_solutions, previous_evaluation)
         return [possible_solutions[0], VALID_CODE_STATUS]
     else:
         return [processed_code, MULTIPLE_VALID_CODE_STATUS]
-
-
-def handle_wrong_code():
-    """
-    Handles wrong code and the data saving into a file.
-    Returns:
-        Read data from the file that contains the processed bank codes represented as a string.
-    """
-    processed_codes = handle_validation()
-    code_writer.write_validated_codes_to_file(processed_codes)
-    return code_reader.read_validated_codes()
