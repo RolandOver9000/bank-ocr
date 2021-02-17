@@ -53,6 +53,40 @@ class TestSum(unittest.TestCase):
         test_result = [11, 9, 11, 11, 7, 12, 10, 1, 12]
         self.assertEqual(result, test_result)
 
+    # -----------is_code_valid_checksum function tests----------
+
+    def test_is_code_valid_checksum_with_valid_hexadecimal_code(self):
+        """
+        Tests code_validator's is_code_valid_checksum function with valid hexadecimal code.
+        """
+        test_code = "71111112A"
+        result = bank_ocr.is_code_valid_checksum(test_code)
+        self.assertEqual(result, True)
+
+    def test_is_code_valid_checksum_with_valid_decimal_code(self):
+        """
+        Tests code_validator's is_code_valid_checksum function with valid decimal code.
+        """
+        test_code = "000000051"
+        result = bank_ocr.is_code_valid_checksum(test_code)
+        self.assertEqual(result, True)
+
+    def test_is_code_valid_checksum_with_invalid_hexadecimal_code(self):
+        """
+        Tests code_validator's is_code_valid_checksum function with invalid hexadecimal code.
+        """
+        test_code = "BDCEFA000"
+        result = bank_ocr.is_code_valid_checksum(test_code)
+        self.assertEqual(result, False)
+
+    def test_is_code_valid_checksum_with_invalid_decimal_code(self):
+        """
+        Tests code_validator's is_code_valid_checksum function with invalid decimal code.
+        """
+        test_code = "490867713"
+        result = bank_ocr.is_code_valid_checksum(test_code)
+        self.assertEqual(result, False)
+
 
 if __name__ == '__main__':
     unittest.main()
