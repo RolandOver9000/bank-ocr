@@ -117,7 +117,7 @@ def get_digits_from_code_by_index(code, digit_indexes):
     return digit_on_index
 
 
-def get_single_digit_from_code(code, digit_index):
+def get_single_digit_from_code_by_index(code, digit_index):
     """
     Gets a single digit string from a code by the given index.
     :param code: String representation of digit code.
@@ -163,7 +163,7 @@ def handle_invalid_digit(code, processed_code):
         The possible solution if the code has any.
     """
     invalid_digit_index = list(processed_code).index("?")
-    invalid_digit = get_single_digit_from_code(code, invalid_digit_index)
+    invalid_digit = get_single_digit_from_code_by_index(code, invalid_digit_index)
     valid_digit_options = try_to_fix_digit(invalid_digit)
     return get_possible_valid_code(processed_code, valid_digit_options, invalid_digit_index)
 

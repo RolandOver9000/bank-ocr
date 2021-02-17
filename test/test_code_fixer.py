@@ -144,6 +144,33 @@ class TestSum(unittest.TestCase):
         result = bank_ocr.get_digits_from_code_by_index(test_code, test_index_list)
         self.assertEqual(result, test_code_digits_by_index)
 
+    # -----------get_single_digit_from_code function tests----------
+
+    def test_get_single_digit_from_code_by_index_with_one_index(self):
+        """
+        Tests code_fixer's get_single_digit_from_code_by_index function with an index.
+        """
+        test_code = " _  _  _  _  _  _  _  _  _ " \
+                    "|_||_||  |_ |_ |_||  |  |  " \
+                    "| || ||_ |_ |  | ||_ |_ |_ "
+        test_code_digit_by_index = " _ "\
+                                   "|  "\
+                                   "|_ "
+        test_index = 2
+        result = bank_ocr.get_single_digit_from_code_by_index(test_code, test_index)
+        self.assertEqual(result, test_code_digit_by_index)
+
+    def test_get_single_digit_from_code_by_index_with_invalid_index(self):
+        """
+        Tests code_fixer's get_single_digit_from_code_by_index function with an invalid index.
+        """
+        test_code = " _  _  _  _  _  _  _  _  _ " \
+                    "|_||_||  |_ |_ |_||  |  |  " \
+                    "| || ||_ |_ |  | ||_ |_ |_ "
+        test_index = 111
+        bank_ocr.get_single_digit_from_code_by_index(test_code, test_index)
+        self.assertRaises(IndexError)
+
 
 if __name__ == '__main__':
     unittest.main()
