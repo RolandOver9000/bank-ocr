@@ -4,6 +4,14 @@ CHECKSUM_ERROR_STATUS = "ERR"
 DIGIT_ERROR_STATUS = "ILL"
 VALID_CODE_STATUS = ""
 MULTIPLE_VALID_CODE_STATUS = "AMB"
+HEXADECIMAL_TO_DECIMAL = {
+    'A': 10,
+    'B': 11,
+    'C': 12,
+    'D': 13,
+    'E': 14,
+    'F': 15
+}
 
 
 def calculate_checksum(reversed_code):
@@ -31,20 +39,28 @@ def is_code_hexadecimal(processed_code):
     Returns:
         A boolean value based on the evaluation.
     """
+    return True if list(processed_code).count("?") == 0 else False
 
-    return True if list(processed_code).count("?") > 0 else False
+
+def convert_code_to_decimal(reversed_code):
+
+    pass
 
 
-def is_code_valid_checksum(code):
+def is_code_valid_checksum(processed_code):
     """
     Checks if checksum is valid.
-    :param code: String
+    :param processed_code: String of bank code.
     Returns:
         A boolean value if checksum is correct.
     """
-    reversed_code = code[::-1]
+    list_of_digits = list(processed_code)
+    list_of_digits.reverse()
 
-    return int(code) > 0 and calculate_checksum(reversed_code) % 11 == 0
+    if not processed_code.isnumeric():
+        list_of_digits = convert_code_to_decimal(processed_code)
+
+    return sum(list_of_digits) > 0 and calculate_checksum(list_of_digits) % 11 == 0
 
 
 def get_validation_status(processed_code):

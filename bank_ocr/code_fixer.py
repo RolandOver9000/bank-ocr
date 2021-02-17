@@ -199,7 +199,7 @@ def get_valid_number_variation(index_of_digit, processed_code, possible_digit_va
 
     for digit in possible_digit_variations:
         code_variation = processed_code[:index_of_digit] + str(digit) + processed_code[index_of_digit + 1:]
-        if validation.is_code_valid_checksum(code_variation):
+        if validation.vali(code_variation):
             valid_codes.append(code_variation)
     return valid_codes
 
