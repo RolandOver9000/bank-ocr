@@ -147,7 +147,7 @@ def get_possible_valid_code(processed_code, valid_digit_options, index_of_invali
         fixed_process_code = processed_code[:index_of_invalid_digit] \
                              + str(digit_option) \
                              + processed_code[index_of_invalid_digit + 1:]
-        if validation.get_validation_status(fixed_process_code) == VALID_CODE_STATUS:
+        if validation.is_code_valid_checksum(fixed_process_code):
             return [fixed_process_code]
     return []
 
@@ -168,24 +168,6 @@ def handle_invalid_digit(code, processed_code):
     return []
 
 
-def get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations):
-    """
-    Checks if a code can be valid based on the possible digits on a specific index.
-    :param index_of_digit: Index of the digit that can be interchangeable with the given possible digit variations.
-    :param processed_code: String representation of processed (numeric) code.
-    :param possible_digit_variations: The list of the numbers that can be interchangeable with the number that is on
-    the given index.
-    Returns:
-        A list of valid codes.
-    """
-    valid_codes = []
-    for digit in possible_digit_variations:
-        code_variation = processed_code[:index_of_digit] + str(digit) + processed_code[index_of_digit + 1:]
-        if validation.is_code_valid_checksum(code_variation):
-            valid_codes.append(code_variation)
-    return valid_codes
-
-
 # In the case of checksum errors maybe would be better to save out what number can be converted into another number
 # because it will be always fix.
 def handle_checksum_error(code, processed_code):
@@ -202,7 +184,7 @@ def handle_checksum_error(code, processed_code):
 
     for index_of_digit, digit in invalid_digits.items():
         possible_digit_variations = try_to_fix_digit(digit)
-        valid_number_variations = get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations)
+        valid_number_variations = get_possible_valid_code(processed_code, possible_digit_variations, index_of_digit)
         if valid_number_variations:
             possible_solutions += valid_number_variations
     return possible_solutions

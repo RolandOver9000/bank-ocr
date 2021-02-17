@@ -172,6 +172,7 @@ class TestSum(unittest.TestCase):
         self.assertRaises(IndexError)
 
     # -----------get_possible_valid_code function tests----------
+
     def test_get_possible_valid_code_with_one_valid_option_and_without_valid_code(self):
         """
         Tests code_fixer's get_possible_valid_code with one valid option and without valid code.
@@ -211,6 +212,8 @@ class TestSum(unittest.TestCase):
         index_of_invalid_digit = 8
         result = bank_ocr.get_possible_valid_code(test_code, test_valid_digit_options, index_of_invalid_digit)
         self.assertEqual(result, ["BBBBBBBBB"])
+
+    # -----------get_valid_number_variation function tests----------
 
 
 if __name__ == '__main__':
