@@ -71,9 +71,9 @@ def is_code_valid_checksum(processed_code):
         list_of_digits = [int(digit) for digit in processed_code]
         list_of_digits.reverse()
     else:
-        list_of_digits = convert_code_to_decimal(processed_code)
+        converted_digits = convert_code_to_decimal(processed_code)
+        list_of_digits = [int(digit) for digit in converted_digits]
 
-    print(list_of_digits)
     return sum(list_of_digits) > 0 and calculate_checksum(list_of_digits) % 11 == 0
 
 
