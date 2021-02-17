@@ -1,4 +1,3 @@
-from bank_ocr import code_reader, code_writer
 
 CHECKSUM_ERROR_STATUS = "ERR"
 DIGIT_ERROR_STATUS = "ILL"

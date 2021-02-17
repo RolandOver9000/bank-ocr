@@ -197,7 +197,7 @@ class TestSum(unittest.TestCase):
         """
         Tests code_fixer's get_possible_valid_code with more valid options and without valid code.
         """
-        test_code = "012345678?"
+        test_code = "01234567?"
         test_valid_digit_options = ['B', 'C', '3', '0']
         index_of_invalid_digit = 8
         result = bank_ocr.get_possible_valid_code(test_code, test_valid_digit_options, index_of_invalid_digit)
@@ -212,8 +212,6 @@ class TestSum(unittest.TestCase):
         index_of_invalid_digit = 8
         result = bank_ocr.get_possible_valid_code(test_code, test_valid_digit_options, index_of_invalid_digit)
         self.assertEqual(result, ["BBBBBBBBB"])
-
-    # -----------get_valid_number_variation function tests----------
 
 
 if __name__ == '__main__':
