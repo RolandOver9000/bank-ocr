@@ -172,11 +172,45 @@ class TestSum(unittest.TestCase):
         self.assertRaises(IndexError)
 
     # -----------get_possible_valid_code function tests----------
-    def test_get_possible_valid_code_with_no_valid_options(self):
+    def test_get_possible_valid_code_with_one_valid_option_and_without_valid_code(self):
         """
-        Tests code_fixer's get_possible_valid_code with no valid options.
+        Tests code_fixer's get_possible_valid_code with one valid option and without valid code.
         """
-        test_code = "012345678"
+        test_code = "01234567?"
+        test_valid_digit_options = ['1']
+        index_of_invalid_digit = 8
+        result = bank_ocr.get_possible_valid_code(test_code, test_valid_digit_options, index_of_invalid_digit)
+        self.assertEqual(result, [])
+
+    def test_get_possible_valid_code_with_one_valid_option_and_with_valid_code(self):
+        """
+        Tests code_fixer's get_possible_valid_code with one valid option and with valid code.
+        """
+        test_code = "BBBBBBBB?"
+        test_valid_digit_options = ['B']
+        index_of_invalid_digit = 8
+        result = bank_ocr.get_possible_valid_code(test_code, test_valid_digit_options, index_of_invalid_digit)
+        self.assertEqual(result, ["BBBBBBBBB"])
+
+    def test_get_possible_valid_code_with_more_valid_options_and_without_valid_code(self):
+        """
+        Tests code_fixer's get_possible_valid_code with more valid options and without valid code.
+        """
+        test_code = "012345678?"
+        test_valid_digit_options = ['B', 'C', '3', '0']
+        index_of_invalid_digit = 8
+        result = bank_ocr.get_possible_valid_code(test_code, test_valid_digit_options, index_of_invalid_digit)
+        self.assertEqual(result, [])
+
+    def test_get_possible_valid_code_with_more_valid_options_and_with_valid_code(self):
+        """
+        Tests code_fixer's get_possible_valid_code with more valid options and with valid code.
+        """
+        test_code = "BBBBBBBB?"
+        test_valid_digit_options = ['B', 'C', '3', '0']
+        index_of_invalid_digit = 8
+        result = bank_ocr.get_possible_valid_code(test_code, test_valid_digit_options, index_of_invalid_digit)
+        self.assertEqual(result, ["BBBBBBBBB"])
 
 
 if __name__ == '__main__':

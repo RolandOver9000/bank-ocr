@@ -143,7 +143,6 @@ def get_possible_valid_code(processed_code, valid_digit_options, index_of_invali
     Returns:
         The possible code that are valid or empty list.
     """
-    print(processed_code, " processed code\n ", valid_digit_options, " options")
     for digit_option in valid_digit_options:
         fixed_process_code = processed_code[:index_of_invalid_digit] \
                              + str(digit_option) \
