@@ -61,6 +61,8 @@ class TestSum(unittest.TestCase):
         result = bank_ocr.try_to_fix_digit(test_digit)
         self.assertEqual(result, [], "The result should be an empty list.")
 
+    # -----------get_invalid_number_indexes_from_code function tests----------
+
 
 if __name__ == '__main__':
     unittest.main()

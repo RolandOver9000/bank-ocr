@@ -96,20 +96,6 @@ def try_to_fix_digit(digit):
     return possible_solutions
 
 
-def get_invalid_number_indexes_from_code(processed_code):
-    """
-    Gets the indexes of the invalid digits.
-    :param processed_code: String representation of processed bank code.
-    Returns:
-        List if index(es) that are in the processed_code.
-    """
-    invalid_digit_indexes = []
-    for index, character in enumerate(processed_code):
-        if character == "?":
-            invalid_digit_indexes.append(index)
-    return invalid_digit_indexes
-
-
 def get_digits_from_code(code, digit_indexes):
     """
     Collects all digits in a code based on index(es).
