@@ -143,13 +143,11 @@ def get_possible_valid_code(processed_code, valid_digit_options, index_of_invali
     Returns:
         The possible code that are valid or empty list.
     """
-    validity_counter = 0
     for digit_option in valid_digit_options:
         fixed_process_code = processed_code[:index_of_invalid_digit] \
                              + str(digit_option) \
                              + processed_code[index_of_invalid_digit + 1:]
         if validation.get_validation_status(fixed_process_code) == VALID_CODE_STATUS:
-            validity_counter += 1
             return [fixed_process_code]
     return []
 
