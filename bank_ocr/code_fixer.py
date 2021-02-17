@@ -1,5 +1,7 @@
-from bank_ocr import validation, code_reader, code_writer
+from bank_ocr import code_validator, code_reader, code_writer
 
+DUMMY_FILE_NAME = "data/dummy_data.txt"
+VALIDATED_DUMMY_FILE_NAME = "data/validated_dummy_data.txt"
 NUMBER_OF_CHARACTERS_IN_LINE = 27
 NUMBER_OF_DIGIT_PRINT_LINE = 3
 NUMBER_OF_DIGITS = 9
@@ -94,21 +96,7 @@ def try_to_fix_digit(digit):
     return possible_solutions
 
 
-def get_invalid_number_indexes_from_code(processed_code):
-    """
-    Gets the indexes of the invalid digits.
-    :param processed_code: String representation of processed bank code.
-    Returns:
-        List if index(es) that are in the processed_code.
-    """
-    invalid_digit_indexes = []
-    for index, character in enumerate(processed_code):
-        if character == "?":
-            invalid_digit_indexes.append(index)
-    return invalid_digit_indexes
-
-
-def get_digits_from_code(code, digit_indexes):
+def get_digits_from_code_by_index(code, digit_indexes):
     """
     Collects all digits in a code based on index(es).
     :param code: String representation of digit code.
@@ -129,7 +117,7 @@ def get_digits_from_code(code, digit_indexes):
     return digit_on_index
 
 
-def get_single_digit_from_code(code, digit_index):
+def get_single_digit_from_code_by_index(code, digit_index):
     """
     Gets a single digit string from a code by the given index.
     :param code: String representation of digit code.
@@ -155,13 +143,11 @@ def get_possible_valid_code(processed_code, valid_digit_options, index_of_invali
     Returns:
         The possible code that are valid or empty list.
     """
-    validity_counter = 0
     for digit_option in valid_digit_options:
         fixed_process_code = processed_code[:index_of_invalid_digit] \
                              + str(digit_option) \
                              + processed_code[index_of_invalid_digit + 1:]
-        if validation.get_validation_status(fixed_process_code) == VALID_CODE_STATUS:
-            validity_counter += 1
+        if code_validator.is_code_valid_checksum(fixed_process_code):
             return [fixed_process_code]
     return []
 
@@ -175,27 +161,11 @@ def handle_invalid_digit(code, processed_code):
         The possible solution if the code has any.
     """
     invalid_digit_index = list(processed_code).index("?")
-    invalid_digit = get_single_digit_from_code(code, invalid_digit_index)
+    invalid_digit = get_single_digit_from_code_by_index(code, invalid_digit_index)
     valid_digit_options = try_to_fix_digit(invalid_digit)
-    return get_possible_valid_code(processed_code, valid_digit_options, invalid_digit_index)
-
-
-def get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations):
-    """
-    Checks if a code can be valid based on the possible digits on a specific index.
-    :param index_of_digit: Index of the digit that can be interchangeable with the given possible digit variations.
-    :param processed_code: String representation of processed (numeric) code.
-    :param possible_digit_variations: The list of the numbers that can be interchangeable with the number that is on
-    the given index.
-    Returns:
-        A list of valid codes.
-    """
-    valid_codes = []
-    for digit in possible_digit_variations:
-        code_variation = processed_code[:index_of_digit] + str(digit) + processed_code[index_of_digit + 1:]
-        if validation.is_code_valid_checksum(code_variation):
-            valid_codes.append(code_variation)
-    return valid_codes
+    if valid_digit_options:
+        return get_possible_valid_code(processed_code, valid_digit_options, invalid_digit_index)
+    return []
 
 
 # In the case of checksum errors maybe would be better to save out what number can be converted into another number
@@ -209,25 +179,15 @@ def handle_checksum_error(code, processed_code):
     Returns:
         The possible solution(s) if the code has any.
     """
-    invalid_digits = get_digits_from_code(code, range(len(processed_code)))
+    invalid_digits = get_digits_from_code_by_index(code, range(len(processed_code)))
     possible_solutions = []
 
     for index_of_digit, digit in invalid_digits.items():
         possible_digit_variations = try_to_fix_digit(digit)
-        valid_number_variations = get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations)
+        valid_number_variations = get_possible_valid_code(processed_code, possible_digit_variations, index_of_digit)
         if valid_number_variations:
             possible_solutions += valid_number_variations
     return possible_solutions
-
-
-def is_code_contain_multiple_bad_digits(processed_code):
-    """
-    Checks if the processed code has multiple wrong digit.
-    :param processed_code: String representation of processed (numeric) code.
-    Returns:
-        A boolean based on the number of the wrong digits that the processed code contains.
-    """
-    return True if list(processed_code).count("?") < 2 else False
 
 
 def handle_code_fix():
@@ -241,21 +201,21 @@ def handle_code_fix():
     final_evaluation = {}
     code_index = 0
     evaluation_result_index = 1
-    possible_solutions = []
 
-    read_codes = code_reader.read_from_dummy_file()
+    read_codes = code_reader.read_from_dummy_file(DUMMY_FILE_NAME)
     for code in read_codes:
+        possible_solutions = []
         processed_code = code_reader.process_string_code(code)
-        evaluation = validation.get_validation_status(processed_code)
+        evaluation = code_validator.get_validation_status(processed_code)
         if evaluation != DIGIT_ERROR_STATUS and evaluation != CHECKSUM_ERROR_STATUS:
             final_evaluation[processed_code] = VALID_CODE_STATUS
         else:
-            if evaluation == DIGIT_ERROR_STATUS and not is_code_contain_multiple_bad_digits(processed_code):
+            if evaluation == DIGIT_ERROR_STATUS and not code_validator.is_code_contain_multiple_bad_digits(processed_code):
                 possible_solutions = handle_invalid_digit(code, processed_code)
             elif evaluation == CHECKSUM_ERROR_STATUS:
                 possible_solutions = handle_checksum_error(code, processed_code)
-            evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
+            evaluated_process_code = code_validator.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
             final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
 
     code_writer.write_validated_codes_to_file(final_evaluation)
-    return code_reader.read_validated_codes()
+    return code_reader.read_validated_codes(VALIDATED_DUMMY_FILE_NAME)

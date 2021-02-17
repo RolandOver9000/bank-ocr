@@ -1,4 +1,3 @@
-from bank_ocr import code_reader, code_writer
 
 CHECKSUM_ERROR_STATUS = "ERR"
 DIGIT_ERROR_STATUS = "ILL"
@@ -14,25 +13,26 @@ HEXADECIMAL_TO_DECIMAL = {
 }
 
 
-def calculate_checksum(numbers):
+def get_calculated_checksum(code):
     """
     Calculates the checksum based on a formula.
     For example:
         account number:  3  4  5  8  8  2  8  6  5
         position names:  d9 d8 d7 d6 d5 d4 d3 d2 d1
         checksum calculation:(d1+2*d2+3*d3+...+9*d9) mod 11 = 0
-    :param numbers: Reversed string version of the bank code.
+    :param code: Reversed string version of the bank code.
     Returns:
         A calculated checksum based on the formula.
     """
+    code.reverse()
     calculated_checksum = 0
-    for index, number in enumerate(numbers):
+    for index, number in enumerate(code):
         # +1 because index starts from 0
         calculated_checksum += int(number) * (index + 1)
     return calculated_checksum
 
 
-def is_code_hexadecimal(processed_code):
+def is_code_has_unknown_digit(processed_code):
     """
     Checks if the code is a valid hexadecimal number.
     :param processed_code: String version of bank code.
@@ -42,19 +42,19 @@ def is_code_hexadecimal(processed_code):
     return True if list(processed_code).count("?") == 0 else False
 
 
-def convert_code_to_decimal(digit_list):
+def convert_code_to_decimal(processed_code):
     """
     Converts list of hexadecimal numbers to decimal.
-    :param digit_list: Hexadecimal list of numbers.
+    :param processed_code: String of bank code.
     Returns:
         A list that contains the decimal version of the given hexadecimal numbers.
     """
     converted_digits = []
 
-    for index, digit in enumerate(digit_list):
+    for index, digit in enumerate(processed_code):
         if not digit.isnumeric():
             digit = HEXADECIMAL_TO_DECIMAL[digit]
-        converted_digits.append(digit)
+        converted_digits.append(int(digit))
 
     return converted_digits
 
@@ -69,12 +69,11 @@ def is_code_valid_checksum(processed_code):
 
     if processed_code.isnumeric():
         list_of_digits = [int(digit) for digit in processed_code]
-        list_of_digits.reverse()
     else:
         converted_digits = convert_code_to_decimal(processed_code)
         list_of_digits = [int(digit) for digit in converted_digits]
 
-    return sum(list_of_digits) > 0 and calculate_checksum(list_of_digits) % 11 == 0
+    return sum(list_of_digits) > 0 and get_calculated_checksum(list_of_digits) % 11 == 0
 
 
 def get_validation_status(processed_code):
@@ -84,7 +83,7 @@ def get_validation_status(processed_code):
     Returns:
         A boolean value based on the validity.
     """
-    if is_code_hexadecimal(processed_code):
+    if is_code_has_unknown_digit(processed_code):
         if is_code_valid_checksum(processed_code):
             return VALID_CODE_STATUS
         else:
@@ -93,17 +92,14 @@ def get_validation_status(processed_code):
         return DIGIT_ERROR_STATUS
 
 
-def handle_validation():
+def is_code_contain_multiple_bad_digits(processed_code):
     """
-    Handles the process of bank code validation.
+    Checks if the processed code has multiple wrong digit.
+    :param processed_code: String representation of processed (numeric) code.
     Returns:
-        A dictionary with the string codes(key) and with a boolean value based on the validity(value).
+        A boolean based on the number of the wrong digits that the processed code contains.
     """
-    processed_codes = code_reader.handle_code_reading()
-    validated_processed_codes = {}
-    for processed_code in processed_codes:
-        validated_processed_codes[processed_code] = get_validation_status(processed_code)
-    return validated_processed_codes
+    return True if list(processed_code).count("?") > 1 else False
 
 
 def evaluate_fixed_code(processed_code, possible_solutions, previous_evaluation):
@@ -122,14 +118,3 @@ def evaluate_fixed_code(processed_code, possible_solutions, previous_evaluation)
         return [possible_solutions[0], VALID_CODE_STATUS]
     else:
         return [processed_code, MULTIPLE_VALID_CODE_STATUS]
-
-
-def handle_wrong_code():
-    """
-    Handles wrong code and the data saving into a file.
-    Returns:
-        Read data from the file that contains the processed bank codes represented as a string.
-    """
-    processed_codes = handle_validation()
-    code_writer.write_validated_codes_to_file(processed_codes)
-    return code_reader.read_validated_codes()
