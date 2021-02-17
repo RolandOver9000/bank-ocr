@@ -75,11 +75,11 @@ class TestSum(unittest.TestCase):
         """
         Tests code_reader's read_from_dummy_file function.
         """
-        test_file_source = "test_data/test_dummy_data.txt"
+        test_file_source = "test/test_data/test_dummy_data.txt"
         test_result ="                   _  _  _ " \
                      "  |  |  |  |  |  ||_ |_ |_|" \
                      "  |  |  |  |  |  ||_ |  | |"
-        result = bank_ocr.code_reader.read_from_dummy_file(test_file_source)
+        result = bank_ocr.read_from_dummy_file(test_file_source)
         self.assertEqual(result, [test_result])
 
 

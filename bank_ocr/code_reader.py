@@ -113,6 +113,7 @@ def read_from_dummy_file(source_file):
 
 def read_validated_codes(source_file):
     """
+    Reads the validated code from the source file.
     :param source_file: path of the source file.
     Reads the validated codes from the result file (validated_dummy_data.txt).
     Returns:
