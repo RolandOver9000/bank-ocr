@@ -69,7 +69,7 @@ def process_read_lines(read_codes):
     code_list = []
     for code in read_codes:
         code_list.append(process_string_code(code))
-    print(code_list)
+    return code_list
 
 
 def read_from_dummy_file():
@@ -100,6 +100,9 @@ def read_from_dummy_file():
 def handle_process():
     """
     Handles the process of code reader.
+    Returns:
+        A list of the processed codes.
     """
     read_lines = read_from_dummy_file()
-    process_read_lines(read_lines)
+
+    return process_read_lines(read_lines)
