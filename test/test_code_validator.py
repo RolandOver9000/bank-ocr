@@ -33,8 +33,25 @@ class TestSum(unittest.TestCase):
         result = bank_ocr.is_code_has_unknown_digit(test_code)
         self.assertEqual(result, False)
 
-    # -----------is_code_has_unknown_digit function tests----------
+    # -----------convert_code_to_decimal function tests----------
 
+    def test_convert_code_to_decimal_with_only_hexadecimal_digits(self):
+        """
+        Tests code_validator's convert_code_to_decimal function with only hexadecimal digits.
+        """
+        test_code = "BBBBCCACC"
+        result = bank_ocr.convert_code_to_decimal(test_code)
+        test_result = [11, 11, 11, 11, 12, 12, 10, 12, 12]
+        self.assertEqual(result, test_result)
+
+    def test_convert_code_to_decimal_with_mixed_hexadecimal_digits(self):
+        """
+        Tests code_validator's convert_code_to_decimal function with mixed hexadecimal digits.
+        """
+        test_code = "B9BB7CA1C"
+        result = bank_ocr.convert_code_to_decimal(test_code)
+        test_result = [11, 9, 11, 11, 7, 12, 10, 1, 12]
+        self.assertEqual(result, test_result)
 
 
 if __name__ == '__main__':

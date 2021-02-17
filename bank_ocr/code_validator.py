@@ -54,7 +54,7 @@ def convert_code_to_decimal(processed_code):
     for index, digit in enumerate(processed_code):
         if not digit.isnumeric():
             digit = HEXADECIMAL_TO_DECIMAL[digit]
-        converted_digits.append(digit)
+        converted_digits.append(int(digit))
 
     return converted_digits
 
