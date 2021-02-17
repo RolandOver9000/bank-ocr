@@ -1,5 +1,7 @@
 from bank_ocr import validation, code_reader, code_writer
 
+DUMMY_FILE_NAME = "data/dummy_data.txt"
+VALIDATED_DUMMY_FILE_NAME = "data/validated_dummy_data.txt"
 NUMBER_OF_CHARACTERS_IN_LINE = 27
 NUMBER_OF_DIGIT_PRINT_LINE = 3
 NUMBER_OF_DIGITS = 9
@@ -243,7 +245,7 @@ def handle_code_fix():
     evaluation_result_index = 1
     possible_solutions = []
 
-    read_codes = code_reader.read_from_dummy_file()
+    read_codes = code_reader.read_from_dummy_file(DUMMY_FILE_NAME)
     for code in read_codes:
         processed_code = code_reader.process_string_code(code)
         evaluation = validation.get_validation_status(processed_code)
@@ -258,4 +260,4 @@ def handle_code_fix():
             final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
 
     code_writer.write_validated_codes_to_file(final_evaluation)
-    return code_reader.read_validated_codes()
+    return code_reader.read_validated_codes(VALIDATED_DUMMY_FILE_NAME)

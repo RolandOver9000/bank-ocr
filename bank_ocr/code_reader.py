@@ -98,14 +98,14 @@ def process_read_lines(read_codes):
     return code_list
 
 
-def read_from_dummy_file():
-
+def read_from_dummy_file(source_file):
     """
+    :param source_file: path of the source file.
     Reads from the /data/dummy_data.txt file and expands it if there are missing spaces.
     Returns:
          The string list of codes that in the dummy file. 3 rows concatenated together to get a code in 1 list item.
     """
-    with open(DUMMY_FILE_NAME, "r") as file:
+    with open(source_file, "r") as file:
         line = ""
         lines = []
         bank_code_line_length = 4
@@ -123,13 +123,14 @@ def read_from_dummy_file():
     return lines
 
 
-def read_validated_codes():
+def read_validated_codes(source_file):
     """
+    :param source_file: path of the source file.
     Reads the validated codes from the result file (validated_dummy_data.txt).
     Returns:
         A string with the read data.
     """
-    with open(VALIDATED_DUMMY_FILE_NAME, "r") as file:
+    with open(source_file, "r") as file:
         return file.read()
 
 
@@ -139,5 +140,5 @@ def handle_code_reading():
     Returns:
         The string list of processed bank codes.
     """
-    read_lines = read_from_dummy_file()
+    read_lines = read_from_dummy_file(DUMMY_FILE_NAME)
     return process_read_lines(read_lines)
