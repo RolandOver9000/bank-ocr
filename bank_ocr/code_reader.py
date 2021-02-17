@@ -85,19 +85,6 @@ def process_string_code(code):
     return processed_code
 
 
-def process_read_lines(read_codes):
-    """
-    Processes the rows of the file.
-    :param read_codes: List of strings
-    Returns:
-        String list of the read codes.
-    """
-    code_list = []
-    for code in read_codes:
-        code_list.append(process_string_code(code))
-    return code_list
-
-
 def read_from_dummy_file(source_file):
     """
     :param source_file: path of the source file.
@@ -132,13 +119,3 @@ def read_validated_codes(source_file):
     """
     with open(source_file, "r") as file:
         return file.read()
-
-
-def handle_code_reading():
-    """
-    Handles the process of code reader.
-    Returns:
-        The string list of processed bank codes.
-    """
-    read_lines = read_from_dummy_file(DUMMY_FILE_NAME)
-    return process_read_lines(read_lines)
