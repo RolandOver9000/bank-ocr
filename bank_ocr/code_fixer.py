@@ -240,7 +240,7 @@ def handle_code_fix():
     - Evaluates code then if it is wrong, it starts the fixing process, then evaluates the result again and saves it.
     - After that it starts the "write result into the file" process.
     Returns:
-        The string list of processed bank codes.
+        The string of processed bank codes that read from the file.
     """
     final_evaluation = {}
     code_index = 0
@@ -262,3 +262,4 @@ def handle_code_fix():
             final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
 
     code_writer.write_validated_codes_to_file(final_evaluation)
+    return code_reader.read_validated_codes()
