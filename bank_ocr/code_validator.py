@@ -13,7 +13,7 @@ HEXADECIMAL_TO_DECIMAL = {
 }
 
 
-def calculate_checksum(numbers):
+def get_calculated_checksum(numbers):
     """
     Calculates the checksum based on a formula.
     For example:
@@ -73,7 +73,7 @@ def is_code_valid_checksum(processed_code):
         converted_digits = convert_code_to_decimal(processed_code)
         list_of_digits = [int(digit) for digit in converted_digits]
 
-    return sum(list_of_digits) > 0 and calculate_checksum(list_of_digits) % 11 == 0
+    return sum(list_of_digits) > 0 and get_calculated_checksum(list_of_digits) % 11 == 0
 
 
 def get_validation_status(processed_code):

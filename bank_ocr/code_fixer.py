@@ -1,4 +1,4 @@
-from bank_ocr import validation, code_reader, code_writer
+from bank_ocr import code_validator, code_reader, code_writer
 
 DUMMY_FILE_NAME = "data/dummy_data.txt"
 VALIDATED_DUMMY_FILE_NAME = "data/validated_dummy_data.txt"
@@ -147,7 +147,7 @@ def get_possible_valid_code(processed_code, valid_digit_options, index_of_invali
         fixed_process_code = processed_code[:index_of_invalid_digit] \
                              + str(digit_option) \
                              + processed_code[index_of_invalid_digit + 1:]
-        if validation.is_code_valid_checksum(fixed_process_code):
+        if code_validator.is_code_valid_checksum(fixed_process_code):
             return [fixed_process_code]
     return []
 
@@ -206,15 +206,15 @@ def handle_code_fix():
     for code in read_codes:
         possible_solutions = []
         processed_code = code_reader.process_string_code(code)
-        evaluation = validation.get_validation_status(processed_code)
+        evaluation = code_validator.get_validation_status(processed_code)
         if evaluation != DIGIT_ERROR_STATUS and evaluation != CHECKSUM_ERROR_STATUS:
             final_evaluation[processed_code] = VALID_CODE_STATUS
         else:
-            if evaluation == DIGIT_ERROR_STATUS and not validation.is_code_contain_multiple_bad_digits(processed_code):
+            if evaluation == DIGIT_ERROR_STATUS and not code_validator.is_code_contain_multiple_bad_digits(processed_code):
                 possible_solutions = handle_invalid_digit(code, processed_code)
             elif evaluation == CHECKSUM_ERROR_STATUS:
                 possible_solutions = handle_checksum_error(code, processed_code)
-            evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
+            evaluated_process_code = code_validator.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
             final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
 
     code_writer.write_validated_codes_to_file(final_evaluation)
