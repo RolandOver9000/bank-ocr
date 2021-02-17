@@ -14,19 +14,19 @@ HEXADECIMAL_TO_DECIMAL = {
 }
 
 
-def calculate_checksum(reversed_code):
+def calculate_checksum(numbers):
     """
     Calculates the checksum based on a formula.
     For example:
         account number:  3  4  5  8  8  2  8  6  5
         position names:  d9 d8 d7 d6 d5 d4 d3 d2 d1
         checksum calculation:(d1+2*d2+3*d3+...+9*d9) mod 11 = 0
-    :param reversed_code: Reversed string version of the bank code.
+    :param numbers: Reversed string version of the bank code.
     Returns:
         A calculated checksum based on the formula.
     """
     calculated_checksum = 0
-    for index, number in enumerate(reversed_code):
+    for index, number in enumerate(numbers):
         # +1 because index starts from 0
         calculated_checksum += int(number) * (index + 1)
     return calculated_checksum
@@ -66,12 +66,14 @@ def is_code_valid_checksum(processed_code):
     Returns:
         A boolean value if checksum is correct.
     """
-    list_of_digits = list(processed_code)
-    list_of_digits.reverse()
 
-    if not processed_code.isnumeric():
+    if processed_code.isnumeric():
+        list_of_digits = [int(digit) for digit in processed_code]
+        list_of_digits.reverse()
+    else:
         list_of_digits = convert_code_to_decimal(processed_code)
 
+    print(list_of_digits)
     return sum(list_of_digits) > 0 and calculate_checksum(list_of_digits) % 11 == 0
 
 
