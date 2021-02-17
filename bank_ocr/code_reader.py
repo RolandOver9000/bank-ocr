@@ -99,6 +99,7 @@ def read_from_dummy_file(source_file):
 
         for row_index, row in enumerate(file):
             line += row.strip("\n")
+            # file reading cuts the end whitespaces so I add them back
             read_line_length = len(row) - 1
             read_character_number = NUMBER_OF_CHARACTERS_IN_LINE - read_line_length
             line += " " * read_character_number

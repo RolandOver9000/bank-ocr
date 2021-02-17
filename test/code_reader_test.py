@@ -4,6 +4,9 @@ import bank_ocr
 
 
 class TestSum(unittest.TestCase):
+
+    # -----------process_string_code function tests----------
+
     def test_process_string_code_with_decimal(self):
         """
         Tests code_reader's process_string_code function with decimal number.
@@ -65,6 +68,19 @@ class TestSum(unittest.TestCase):
                     "|    ||_ |_ |  | ||_||_||_ "
         result = bank_ocr.process_string_code(test_code)
         self.assertEqual(result, "??CEF?0?C", "The processed code should be ??CEF?0?C")
+
+    # ----------read_from_dummy_file function tests----------
+
+    def test_read_from_dummy_file(self):
+        """
+        Tests code_reader's read_from_dummy_file function.
+        """
+        test_file_source = "test_data/test_dummy_data.txt"
+        test_result ="                   _  _  _ " \
+                     "  |  |  |  |  |  ||_ |_ |_|" \
+                     "  |  |  |  |  |  ||_ |  | |"
+        result = bank_ocr.code_reader.read_from_dummy_file(test_file_source)
+        self.assertEqual(result, [test_result])
 
 
 if __name__ == '__main__':
