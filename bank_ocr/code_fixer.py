@@ -43,13 +43,13 @@ DICT_OF_STRING_DIGITS = {
     "|_|"
     "| |": 'A',
     " _  "
-    "|_\\"
+    "|_\""
     "|_/": 'B',
     " _ "
     "|  "
     "|_ ": 'C',
     " _ "
-    "| \\"
+    "| \""
     "|_/": 'D',
     " _ "
     "|_ "
@@ -78,7 +78,7 @@ def try_to_fix_digit(digit):
     Returns:
         A lis of possible numbers or an empty number if the digit cannot be fixed.
     """
-    segments_representation = ['|', '_', '\\', '/']
+    segments_representation = ['|', '_', '\'', '/']
     possible_solutions = []
     for index, character in enumerate(digit):
         if character == " ":
@@ -167,7 +167,7 @@ def get_possible_valid_code_with_options(processed_code, valid_digit_options, in
     return possible_codes
 
 
-def handle_invalid_digits(code, processed_code):
+def handle_invalid_digit(code, processed_code):
     """
     Manages the process of invalid digit repair.
     :param code: String representation of digit code.
@@ -255,7 +255,7 @@ def handle_code_fix():
             final_evaluation[processed_code] = VALID_CODE_STATUS
         else:
             if evaluation == DIGIT_ERROR_STATUS and not is_code_contain_multiple_bad_digits(processed_code):
-                possible_solutions = handle_invalid_digits(code, processed_code)
+                possible_solutions = handle_invalid_digit(code, processed_code)
             elif evaluation == CHECKSUM_ERROR_STATUS:
                 possible_solutions = handle_checksum_error(code, processed_code)
             evaluated_process_code = validation.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
