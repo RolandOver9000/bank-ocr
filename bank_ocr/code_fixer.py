@@ -227,7 +227,7 @@ def is_code_contain_multiple_bad_digits(processed_code):
     Returns:
         A boolean based on the number of the wrong digits that the processed code contains.
     """
-    return True if list(processed_code).count("?") > 1 else False
+    return True if list(processed_code).count("?") < 2 else False
 
 
 def handle_code_fix():
