@@ -155,6 +155,38 @@ class TestSum(unittest.TestCase):
         result = bank_ocr.is_code_contain_multiple_bad_digits(test_code)
         self.assertEqual(result, True)
 
+    # -----------evaluate_fixed_code function tests----------
+
+    def test_evaluate_fixed_code_with_fixed_code_with_one_solution(self):
+        """
+        Tests code_validator's evaluate_fixed_code with fixed code with one solution.
+        """
+        test_code = "111?11EFA"
+        test_possible_solutions = ["111111EFA"]
+        test_previous_evaluation = "ILL"
+        result = bank_ocr.evaluate_fixed_code(test_code, test_possible_solutions, test_previous_evaluation)
+        self.assertEqual(result, ["111111EFA", ""])
+
+    def test_evaluate_fixed_code_with_fixed_code_with_multiple_solutions(self):
+        """
+        Tests code_validator's evaluate_fixed_code with fixed code with one solutions.
+        """
+        test_code = "555555555"
+        test_possible_solutions = ["555655555", "559555555"]
+        test_previous_evaluation = "ERR"
+        result = bank_ocr.evaluate_fixed_code(test_code, test_possible_solutions, test_previous_evaluation)
+        self.assertEqual(result, [test_code, "AMB"])
+
+    def test_evaluate_fixed_code_with_fixed_code_with_no_solution(self):
+        """
+        Tests code_validator's evaluate_fixed_code with fixed code with no solution.
+        """
+        test_code = "0000000??"
+        test_possible_solutions = []
+        test_previous_evaluation = "ILL"
+        result = bank_ocr.evaluate_fixed_code(test_code, test_possible_solutions, test_previous_evaluation)
+        self.assertEqual(result, [test_code, "ILL"])
+
 
 if __name__ == '__main__':
     unittest.main()
