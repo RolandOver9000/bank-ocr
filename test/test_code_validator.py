@@ -121,6 +121,40 @@ class TestSum(unittest.TestCase):
         result = bank_ocr.get_validation_status(test_code)
         self.assertEqual(result, "ILL")
 
+    # -----------is_code_contain_multiple_bad_digits function tests----------
+
+    def test_is_code_contain_multiple_bad_digits_with_no_bad_digit(self):
+        """
+        Tests code_validator's is_code_contain_multiple_bad_digits with no bad digit.
+        """
+        test_code = "190123413"
+        result = bank_ocr.is_code_contain_multiple_bad_digits(test_code)
+        self.assertEqual(result, False)
+
+    def test_is_code_contain_multiple_bad_digits_with_one_bad_digit(self):
+        """
+        Tests code_validator's is_code_contain_multiple_bad_digits with one bad digit.
+        """
+        test_code = "190123?13"
+        result = bank_ocr.is_code_contain_multiple_bad_digits(test_code)
+        self.assertEqual(result, False)
+
+    def test_is_code_contain_multiple_bad_digits_with_two_bad_digits(self):
+        """
+        Tests code_validator's is_code_contain_multiple_bad_digits with two bad digits.
+        """
+        test_code = "1?0123?13"
+        result = bank_ocr.is_code_contain_multiple_bad_digits(test_code)
+        self.assertEqual(result, True)
+
+    def test_is_code_contain_multiple_bad_digits_with_many_bad_digits(self):
+        """
+        Tests code_validator's is_code_contain_multiple_bad_digits with one bad digits.
+        """
+        test_code = "?9?1?3?13"
+        result = bank_ocr.is_code_contain_multiple_bad_digits(test_code)
+        self.assertEqual(result, True)
+
 
 if __name__ == '__main__':
     unittest.main()
