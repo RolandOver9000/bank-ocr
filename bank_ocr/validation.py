@@ -42,9 +42,21 @@ def is_code_hexadecimal(processed_code):
     return True if list(processed_code).count("?") == 0 else False
 
 
-def convert_code_to_decimal(reversed_code):
+def convert_code_to_decimal(digit_list):
+    """
+    Converts list of hexadecimal numbers to decimal.
+    :param digit_list: Hexadecimal list of numbers.
+    Returns:
+        A list that contains the decimal version of the given hexadecimal numbers.
+    """
+    converted_digits = []
 
-    pass
+    for index, digit in enumerate(digit_list):
+        if not digit.isnumeric():
+            digit = HEXADECIMAL_TO_DECIMAL[digit]
+        converted_digits.append(digit)
+
+    return converted_digits
 
 
 def is_code_valid_checksum(processed_code):
