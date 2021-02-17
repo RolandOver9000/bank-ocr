@@ -33,6 +33,9 @@ class TestSum(unittest.TestCase):
         result = bank_ocr.is_code_has_unknown_digit(test_code)
         self.assertEqual(result, False)
 
+    # -----------is_code_has_unknown_digit function tests----------
+
+
 
 if __name__ == '__main__':
     unittest.main()

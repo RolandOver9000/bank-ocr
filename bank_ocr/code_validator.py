@@ -42,16 +42,16 @@ def is_code_has_unknown_digit(processed_code):
     return True if list(processed_code).count("?") == 0 else False
 
 
-def convert_code_to_decimal(digit_list):
+def convert_code_to_decimal(processed_code):
     """
     Converts list of hexadecimal numbers to decimal.
-    :param digit_list: Hexadecimal list of numbers.
+    :param processed_code: String of bank code.
     Returns:
         A list that contains the decimal version of the given hexadecimal numbers.
     """
     converted_digits = []
 
-    for index, digit in enumerate(digit_list):
+    for index, digit in enumerate(processed_code):
         if not digit.isnumeric():
             digit = HEXADECIMAL_TO_DECIMAL[digit]
         converted_digits.append(digit)
