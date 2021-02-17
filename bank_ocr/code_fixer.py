@@ -143,6 +143,7 @@ def get_possible_valid_code(processed_code, valid_digit_options, index_of_invali
     Returns:
         The possible code that are valid or empty list.
     """
+    print(processed_code, " processed code\n ", valid_digit_options, " options")
     for digit_option in valid_digit_options:
         fixed_process_code = processed_code[:index_of_invalid_digit] \
                              + str(digit_option) \
@@ -163,7 +164,9 @@ def handle_invalid_digit(code, processed_code):
     invalid_digit_index = list(processed_code).index("?")
     invalid_digit = get_single_digit_from_code_by_index(code, invalid_digit_index)
     valid_digit_options = try_to_fix_digit(invalid_digit)
-    return get_possible_valid_code(processed_code, valid_digit_options, invalid_digit_index)
+    if valid_digit_options:
+        return get_possible_valid_code(processed_code, valid_digit_options, invalid_digit_index)
+    return []
 
 
 def get_valid_number_variation(index_of_digit, processed_code, possible_digit_variations):
