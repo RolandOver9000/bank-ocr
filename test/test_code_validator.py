@@ -87,6 +87,40 @@ class TestSum(unittest.TestCase):
         result = bank_ocr.is_code_valid_checksum(test_code)
         self.assertEqual(result, False)
 
+    # -----------get_validation_status function tests----------
+
+    def test_get_validation_status_with_valid_code(self):
+        """
+        Tests code_validator's get_validation_status with valid code.
+        """
+        test_code = "000000051"
+        result = bank_ocr.get_validation_status(test_code)
+        self.assertEqual(result, "")
+
+    def test_get_validation_status_with_invalid_code_checksum(self):
+        """
+        Tests code_validator's get_validation_status with invalid code checksum.
+        """
+        test_code = "490867713"
+        result = bank_ocr.get_validation_status(test_code)
+        self.assertEqual(result, "ERR")
+
+    def test_get_validation_status_with_invalid_code_digit(self):
+        """
+        Tests code_validator's get_validation_status with invalid code digit.
+        """
+        test_code = "49086?713"
+        result = bank_ocr.get_validation_status(test_code)
+        self.assertEqual(result, "ILL")
+
+    def test_get_validation_status_with_multiple_invalid_code_digit(self):
+        """
+        Tests code_validator's get_validation_status with multiple invalid code digit.
+        """
+        test_code = "?90????13"
+        result = bank_ocr.get_validation_status(test_code)
+        self.assertEqual(result, "ILL")
+
 
 if __name__ == '__main__':
     unittest.main()
