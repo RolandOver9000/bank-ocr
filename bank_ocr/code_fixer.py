@@ -47,7 +47,7 @@ DICT_OF_STRING_DIGITS = {
     "|_/": 'B',
     " _ "
     "|  "
-    "|_ ": 'c',
+    "|_ ": 'C',
     " _ "
     "| \\"
     "|_/": 'D',
@@ -56,7 +56,7 @@ DICT_OF_STRING_DIGITS = {
     "|_ ": 'E',
     " _ "
     "|_ "
-    "|  ": 'F',
+    "|  ": 'F'
 
 }
 
@@ -78,7 +78,7 @@ def try_to_fix_digit(digit):
     Returns:
         A lis of possible numbers or an empty number if the digit cannot be fixed.
     """
-    segments_representation = ['|', '_']
+    segments_representation = ['|', '_', '\\', '/']
     possible_solutions = []
     for index, character in enumerate(digit):
         if character == " ":
