@@ -198,9 +198,7 @@ def handle_code_fix():
     Returns:
         The string of processed bank codes that read from the file.
     """
-    final_evaluation = {}
-    code_index = 0
-    evaluation_result_index = 1
+    final_evaluation = []
 
     read_codes = code_reader.read_from_dummy_file(DUMMY_FILE_NAME)
     for code in read_codes:
@@ -208,14 +206,15 @@ def handle_code_fix():
         processed_code = code_reader.process_string_code(code)
         evaluation = code_validator.get_validation_status(processed_code)
         if evaluation != DIGIT_ERROR_STATUS and evaluation != CHECKSUM_ERROR_STATUS:
-            final_evaluation[processed_code] = VALID_CODE_STATUS
+            final_evaluation.append([processed_code, VALID_CODE_STATUS])
         else:
-            if evaluation == DIGIT_ERROR_STATUS and not code_validator.is_code_contain_multiple_bad_digits(processed_code):
+            if evaluation == DIGIT_ERROR_STATUS and \
+               not code_validator.is_code_contain_multiple_bad_digits(processed_code):
                 possible_solutions = handle_invalid_digit(code, processed_code)
             elif evaluation == CHECKSUM_ERROR_STATUS:
                 possible_solutions = handle_checksum_error(code, processed_code)
             evaluated_process_code = code_validator.evaluate_fixed_code(processed_code, possible_solutions, evaluation)
-            final_evaluation[evaluated_process_code[code_index]] = evaluated_process_code[evaluation_result_index]
+            final_evaluation.append(evaluated_process_code)
 
     code_writer.write_validated_codes_to_file(final_evaluation)
     return code_reader.read_validated_codes(VALIDATED_DUMMY_FILE_NAME)
