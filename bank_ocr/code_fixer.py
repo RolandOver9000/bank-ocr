@@ -96,7 +96,7 @@ def try_to_fix_digit(digit):
     return possible_solutions
 
 
-def get_digits_from_code(code, digit_indexes):
+def get_digits_from_code_by_index(code, digit_indexes):
     """
     Collects all digits in a code based on index(es).
     :param code: String representation of digit code.
@@ -197,7 +197,7 @@ def handle_checksum_error(code, processed_code):
     Returns:
         The possible solution(s) if the code has any.
     """
-    invalid_digits = get_digits_from_code(code, range(len(processed_code)))
+    invalid_digits = get_digits_from_code_by_index(code, range(len(processed_code)))
     possible_solutions = []
 
     for index_of_digit, digit in invalid_digits.items():

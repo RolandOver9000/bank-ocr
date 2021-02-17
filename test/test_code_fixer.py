@@ -61,7 +61,88 @@ class TestSum(unittest.TestCase):
         result = bank_ocr.try_to_fix_digit(test_digit)
         self.assertEqual(result, [], "The result should be an empty list.")
 
-    # -----------get_invalid_number_indexes_from_code function tests----------
+    # -----------get_digits_from_code_by_index function tests----------
+
+    def test_get_digits_from_code_by_index_with_all_indexes(self):
+        """
+        Tests code_fixer's get_digits_from_code_by_index function with all indexes.
+        """
+        test_code = " _  _  _  _  _  _  _  _  _ " \
+                    "|_|  ||  |_ |_ |_|| || ||  " \
+                    "| |  ||_ |_ |  | ||_||_||_ "
+        test_code_digit_length = 9
+        test_code_digits_by_index = {
+            0: " _ "
+               "|_|"
+               "| |",
+            1: " _ "
+               "  |"
+               "  |",
+            2: " _ "
+               "|  "
+               "|_ ",
+            3: " _ "
+               "|_ "
+               "|_ ",
+            4: " _ "
+               "|_ "
+               "|  ",
+            5: " _ "
+               "|_|"
+               "| |",
+            6: " _ "
+               "| |"
+               "|_|",
+            7: " _ "
+               "| |"
+               "|_|",
+            8: " _ "
+               "|  "
+               "|_ ",
+        }
+        result = bank_ocr.get_digits_from_code_by_index(test_code, range(test_code_digit_length))
+        self.assertEqual(result, test_code_digits_by_index)
+
+    def test_get_digits_from_code_by_index_with_specific_indexes(self):
+        """
+        Tests code_fixer's get_digits_from_code_by_index function with specific indexes.
+        """
+        test_code = " _  _  _  _  _  _  _  _  _ " \
+                    "|_|  ||  |_ |_ |_|| || ||  " \
+                    "| |  ||_ |_ |  | ||_||_||_ "
+        test_code_digits_by_index = {
+            1: " _ "
+               "  |"
+               "  |",
+            5: " _ "
+               "|_|"
+               "| |",
+            7: " _ "
+               "| |"
+               "|_|",
+            8: " _ "
+               "|  "
+               "|_ ",
+        }
+        test_index_list = [1, 5, 7, 8]
+        result = bank_ocr.get_digits_from_code_by_index(test_code, test_index_list)
+        self.assertEqual(result, test_code_digits_by_index)
+
+    def test_get_digits_from_code_by_index_with_one_index(self):
+        """
+        Tests code_fixer's get_digits_from_code_by_index function with one index.
+        """
+        test_code = " _  _  _  _  _  _  _  _  _ " \
+                    "|_|  ||  |_ |_ |_|| || ||  " \
+                    "| |  ||_ |_ |  | ||_||_||_ "
+        test_code_digits_by_index = {
+            7: " _ "
+               "| |"
+               "|_|"
+        }
+        test_index_list = [7]
+        result = bank_ocr.get_digits_from_code_by_index(test_code, test_index_list)
+        self.assertEqual(result, test_code_digits_by_index)
 
 
 if __name__ == '__main__':
