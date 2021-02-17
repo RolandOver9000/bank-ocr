@@ -32,7 +32,7 @@ def get_calculated_checksum(code):
     return calculated_checksum
 
 
-def is_code_hexadecimal(processed_code):
+def is_code_has_unknown_digit(processed_code):
     """
     Checks if the code is a valid hexadecimal number.
     :param processed_code: String version of bank code.
@@ -83,7 +83,7 @@ def get_validation_status(processed_code):
     Returns:
         A boolean value based on the validity.
     """
-    if is_code_hexadecimal(processed_code):
+    if is_code_has_unknown_digit(processed_code):
         if is_code_valid_checksum(processed_code):
             return VALID_CODE_STATUS
         else:
