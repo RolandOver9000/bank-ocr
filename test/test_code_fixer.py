@@ -171,6 +171,13 @@ class TestSum(unittest.TestCase):
         bank_ocr.get_single_digit_from_code_by_index(test_code, test_index)
         self.assertRaises(IndexError)
 
+    # -----------get_single_digit_from_code function tests----------
+    def test_get_possible_valid_code_with_no_valid_options(self):
+        """
+        Tests code_fixer's get_possible_valid_code with no valid options.
+        """
+        test_code = "012345678"
+
 
 if __name__ == '__main__':
     unittest.main()

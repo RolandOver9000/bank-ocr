@@ -106,6 +106,16 @@ def handle_validation():
     return validated_processed_codes
 
 
+def is_code_contain_multiple_bad_digits(processed_code):
+    """
+    Checks if the processed code has multiple wrong digit.
+    :param processed_code: String representation of processed (numeric) code.
+    Returns:
+        A boolean based on the number of the wrong digits that the processed code contains.
+    """
+    return True if list(processed_code).count("?") > 1 else False
+
+
 def evaluate_fixed_code(processed_code, possible_solutions, previous_evaluation):
     """
     Evaluates the fixed code based on the fix result.
