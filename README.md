@@ -12,12 +12,12 @@ How you can use my solution?
     - Install Python's 3.6.9 version or above.
     - Open command line and navigate it to my project's root path.
     - Chose which user story you want to check:
-      - User story 1 - switch to feature/convert-data branch
-      - User story 2 - switch to feature/account-number-validation branch
-      - User story 3 - switch to feature/handle-wrong-code branch
-      - User story 4 - switch to feature/fix-wrong-code branch
-      - User story 5 - switch to feature/switch-to-hexadecimal branch
-     - I made the tests on develop/test branch.
+      - User story 1 - switch to feature/convert-data branch - command: **git checkout feature/convert-data**
+      - User story 2 - switch to feature/account-number-validation branch - command: **git checkout feature/account-number-validation**
+      - User story 3 - switch to feature/handle-wrong-code branch - command: **git checkout feature/handle-wrong-code branch**
+      - User story 4 - switch to feature/fix-wrong-code branch - command: **git checkout feature/fix-wrong-code**
+      - User story 5 - switch to feature/switch-to-hexadecimal branch - command: **git checkout feature/switch-to-hexadecimal**
+     - I made the tests on develop/test branch - command: **git checkout develop/test**
      - To run my code type **python3 main.py** in the command line.
      - You will see a result on each branch on your command line.
      - From User story 3 you will see a result file in /bank-ocr/data/validated_dummy_data.txt.
